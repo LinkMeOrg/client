@@ -1,33 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
-import {
-  User,
-  LogIn,
-  LogOut,
-  Menu,
-  X,
-  Home,
-  Info,
-  Mail,
-  Package,
-  PlusCircle,
-  Briefcase,
-  Globe,
-} from "lucide-react";
+import { User, LogOut, LogIn } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import Logo from "../assets/Logo.svg";
 
 const Navbar = () => {
   const { token, logout } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const navigate = useNavigate();
 
   const user = JSON.parse(localStorage.getItem("user"));
   const isAdmin = user?.role === "business";
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   const handleLogout = () => {
     logout();
@@ -35,148 +24,171 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-white shadow-md text-gray-800">
-      <div className="container mx-auto px-4">
-        {/* Desktop Navigation */}
-        <div className="flex justify-between items-center h-24">
-          <div className="flex items-center space-x-2">
-            <div className="flex items-center py-2">
-              <Link to="/">
-                <img
-                  src={Logo}
-                  alt="Logo"
-                  width={150}
-                  height={150}
-                  className="max-h-20"
-                />
+    <nav
+      className={`
+        fixed top-0 left-0 w-full z-[1000] transition-all duration-300
+        ${
+          scrolled ? "bg-white/90 backdrop-blur-xl shadow-sm" : "bg-transparent"
+        }
+      `}
+    >
+      <div className="max-w-7xl mx-auto px-6 md:px-10 py-4 flex items-center justify-between">
+        {/* LOGO - Exact same style as DotLinkMe */}
+        <Link
+          to="/"
+          className="text-[22px] font-extrabold tracking-tight flex items-center gap-1"
+        >
+          <span className="text-brand-accent">Dot</span>
+          <span className="text-brand-primary">LinkMe</span>
+        </Link>
+
+        {/* DESKTOP NAV */}
+        <ul className="hidden lg:flex items-center gap-10 text-[16px] font-medium text-gray-700">
+          <li>
+            <Link className="nav-link-pro" to="/">
+              Home
+            </Link>
+          </li>{" "}
+          <li>
+            <Link className="nav-link-pro" to="/create-card">
+              Create Card
+            </Link>
+          </li>{" "}
+          <li>
+            <Link className="nav-link-pro" to="/how-it-works">
+              How It Works
+            </Link>
+          </li>
+          <li>
+            <Link className="nav-link-pro" to="/about">
+              About
+            </Link>
+          </li>
+          <li>
+            <Link className="nav-link-pro" to="/contact">
+              Contact
+            </Link>
+          </li>
+        </ul>
+
+        {/* DESKTOP BUTTONS */}
+        <div className="hidden lg:flex items-center gap-4">
+          {token ? (
+            <>
+              <Link to="/profile" className="btn-ghost-clean">
+                Profile
               </Link>
-            </div>
-          </div>
-
-          {/* Desktop Menu Links */}
-          <div className="hidden md:flex items-center space-x-6">
-            <Link
-              to="/"
-              className="flex items-center space-x-1 text-gray-700 hover:text-indigo-600 transition-colors"
-            >
-              <Home size={18} />
-              <span>Home</span>
+              <button onClick={handleLogout} className="btn-primary-clean">
+                Logout
+              </button>
+            </>
+          ) : (
+            <Link to="/login" className="btn-primary-clean">
+              Sign In
             </Link>
-
-            <Link
-              to="/about"
-              className="flex items-center space-x-1 text-gray-700 hover:text-indigo-600 transition-colors"
-            >
-              <Info size={18} />
-              <span>About</span>
-            </Link>
-            <Link
-              to="/contact"
-              className="flex items-center space-x-1 text-gray-700 hover:text-indigo-600 transition-colors"
-            >
-              <Mail size={18} />
-              <span>Contact</span>
-            </Link>
-          </div>
-
-          {/* Desktop Auth Buttons */}
-          <div className="hidden md:flex items-center space-x-4">
-            {token ? (
-              <>
-                <Link
-                  to="/profile"
-                  className="flex items-center space-x-1 text-gray-700 hover:text-indigo-600 transition-colors"
-                >
-                  <User size={18} />
-                  <span>Profile</span>
-                </Link>
-                <button
-                  onClick={handleLogout}
-                  className="flex items-center space-x-1 bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                >
-                  <LogOut size={18} />
-                  <span>Logout</span>
-                </button>
-              </>
-            ) : (
-              <Link
-                to="/login"
-                className="flex items-center space-x-1 bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              >
-                <LogIn size={18} />
-                <span>Sign In</span>
-              </Link>
-            )}
-          </div>
-
-          {/* Mobile Menu Button */}
-          <div className="md:hidden flex items-center">
-            <button
-              onClick={toggleMenu}
-              className="text-gray-700 focus:outline-none"
-            >
-              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
-          </div>
+          )}
         </div>
 
-        {/* Mobile Menu */}
-        {isMenuOpen && (
-          <div className="md:hidden pt-4 pb-4 border-t border-gray-200">
-            <div className="flex flex-col space-y-4">
-              <Link
-                to="/"
-                className="flex items-center space-x-2 py-2 px-2 text-gray-700 hover:bg-gray-100 hover:text-indigo-600 rounded-lg transition-colors"
-              >
-                <Home size={18} />
-                <span>Home</span>
-              </Link>
-              <Link
-                to="/about"
-                className="flex items-center space-x-2 py-2 px-2 text-gray-700 hover:bg-gray-100 hover:text-indigo-600 rounded-lg transition-colors"
-              >
-                <Info size={18} />
-                <span>About</span>
-              </Link>
-              <Link
-                to="/contact"
-                className="flex items-center space-x-2 py-2 px-2 text-gray-700 hover:bg-gray-100 hover:text-indigo-600 rounded-lg transition-colors"
-              >
-                <Mail size={18} />
-                <span>Contact</span>
-              </Link>
+        {/* MOBILE ICON */}
+        <button
+          onClick={() => setIsMenuOpen(true)}
+          className="lg:hidden text-[28px] text-gray-800"
+        >
+          ☰
+        </button>
+      </div>
 
-              {/* Mobile Auth Buttons */}
+      {/* MOBILE DRAWER */}
+      {isMenuOpen && (
+        <>
+          {/* overlay */}
+          <div
+            className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[999]"
+            onClick={() => setIsMenuOpen(false)}
+          ></div>
+
+          {/* drawer */}
+          <div
+            className="
+            fixed top-0 right-0 w-72 h-full bg-white shadow-2xl z-[1000]
+            flex flex-col gap-6 px-7 pt-20 pb-10
+            transition-transform duration-300 translate-x-0
+          "
+          >
+            <button
+              onClick={() => setIsMenuOpen(false)}
+              className="text-[28px] absolute top-5 right-6 text-gray-700"
+            >
+              ✕
+            </button>
+            <Link
+              className="drawer-link-pro"
+              to="/"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Home
+            </Link>{" "}
+            <Link
+              className="drawer-link-pro"
+              to="/create-card"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Create Card
+            </Link>{" "}
+            <Link
+              className="drawer-link-pro"
+              to="/how-it-works"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              How It Works{" "}
+            </Link>{" "}
+            <Link
+              className="drawer-link-pro"
+              to="/about"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              About
+            </Link>
+            <Link
+              className="drawer-link-pro"
+              to="/contact"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Contact
+            </Link>
+            <div className="pt-6 flex flex-col gap-3">
               {token ? (
                 <>
                   <Link
+                    className="btn-ghost-clean text-center"
                     to="/profile"
-                    className="flex items-center space-x-2 py-2 px-2 text-gray-700 hover:bg-gray-100 hover:text-indigo-600 rounded-lg transition-colors"
+                    onClick={() => setIsMenuOpen(false)}
                   >
-                    <User size={18} />
-                    <span>Profile</span>
+                    Profile
                   </Link>
                   <button
-                    onClick={handleLogout}
-                    className="flex items-center justify-center space-x-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 px-4 rounded-lg transition-colors w-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    onClick={() => {
+                      handleLogout();
+                      setIsMenuOpen(false);
+                    }}
+                    className="btn-primary-clean text-center"
                   >
-                    <LogOut size={18} />
-                    <span>Logout</span>
+                    Logout
                   </button>
                 </>
               ) : (
                 <Link
+                  className="btn-primary-clean text-center"
                   to="/login"
-                  className="flex items-center justify-center space-x-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 px-4 rounded-lg transition-colors w-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  onClick={() => setIsMenuOpen(false)}
                 >
-                  <LogIn size={18} />
-                  <span>Sign In</span>
+                  Sign In
                 </Link>
               )}
             </div>
           </div>
-        )}
-      </div>
+        </>
+      )}
     </nav>
   );
 };
