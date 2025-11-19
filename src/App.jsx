@@ -21,6 +21,7 @@ import About from "./pages/About";
 import OAuthSuccessWrapper from "./components/OAuthSuccessWrapper";
 import OTPVerify from "./pages/OTPVerify";
 import ScrollToTopButton from "./layout/ScrollToTopButton";
+import Terms from "./pages/Terms";
 
 const AppContent = () => {
   const location = useLocation();
@@ -53,6 +54,7 @@ const AppContent = () => {
         <Route path="/about" element={<About />} />
         <Route path="/oauth-success" element={<OAuthSuccessWrapper />} />
         <Route path="/verify-otp" element={<OTPVerify />} />
+        <Route path="/terms" element={<Terms />} />
       </Routes>
       {!shouldHideNavbarFooter && <Footer />}
       <ScrollToTopButton />

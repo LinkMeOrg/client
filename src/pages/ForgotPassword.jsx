@@ -1,13 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { Star, Mail, ArrowLeft } from "lucide-react";
+import { Mail, ArrowLeft } from "lucide-react";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    AOS.init({ duration: 900, once: true });
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,85 +38,83 @@ const ForgotPassword = () => {
     }
   };
 
+  const inputClasses =
+    "w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/40";
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-purple-50">
-      <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-xl shadow-lg">
-        <div className="text-center">
-          <div className="flex justify-center mb-2">
-            <div className="flex space-x-1">
-              {[1, 2, 3, 4, 5].map((star) => (
-                <Star
-                  key={star}
-                  size={24}
-                  className={
-                    star <= 4
-                      ? "fill-yellow-400 text-yellow-400"
-                      : "text-gray-300"
-                  }
-                />
-              ))}
-            </div>
-          </div>
-          <h2 className="text-3xl font-bold text-gray-800">Reset Password</h2>
-          <p className="mt-2 text-gray-600">
-            Enter your email to receive a reset link
-          </p>
-        </div>
-
-        {message && (
-          <div
-            className="p-4 text-sm text-green-700 bg-green-100 rounded-lg"
-            role="alert"
-          >
-            {message}
-          </div>
-        )}
-
-        {error && (
-          <div
-            className="p-4 text-sm text-red-700 bg-red-100 rounded-lg"
-            role="alert"
-          >
-            {error}
-          </div>
-        )}
-
-        <form onSubmit={handleSubmit} className="mt-8 space-y-6">
-          <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Email Address
-            </label>
-            <div className="mt-1 relative rounded-md shadow-sm">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <Mail size={20} className="text-gray-400" />
-              </div>
-              <input
-                id="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500"
-                placeholder="you@example.com"
-                required
-              />
-            </div>
-            <p className="mt-2 text-sm text-gray-500">
-              We'll send instructions to reset your password to this email
-              address.
+    <div className="min-h-screen bg-brand-light">
+      {/* WRAPPER */}
+      <section className="section-shell pt-28 pb-20 flex justify-center items-start">
+        <div
+          data-aos="fade-up"
+          className="w-full max-w-md bg-white shadow-lg rounded-2xl p-6 md:p-10"
+        >
+          <div className="text-center mb-8">
+            <p className="text-xs font-semibold text-brand-primary uppercase tracking-wide">
+              Password Recovery
+            </p>
+            <h1 className="text-3xl md:text-4xl font-extrabold text-brand-dark mt-1">
+              Reset Your Password
+            </h1>
+            <p className="text-gray-600 mt-3 text-sm">
+              Enter your email to receive a password reset link.
             </p>
           </div>
 
-          <div>
+          {/* Success Message */}
+          {message && (
+            <div
+              className="p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg"
+              role="alert"
+            >
+              {message}
+            </div>
+          )}
+
+          {/* Error Alert */}
+          {error && (
+            <div
+              className="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg"
+              role="alert"
+            >
+              {error}
+            </div>
+          )}
+
+          {/* FORM */}
+          <form onSubmit={handleSubmit} className="space-y-5">
+            {/* Email */}
+            <div className="space-y-1">
+              <label className="text-sm font-medium text-gray-700">
+                Email Address
+              </label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <Mail size={20} className="text-gray-400" />
+                </div>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="you@example.com"
+                  required
+                  className={`${inputClasses} pl-10`}
+                />
+              </div>
+              <p className="text-xs text-gray-500 mt-2">
+                We'll send instructions to reset your password to this email
+                address.
+              </p>
+            </div>
+
+            {/* Submit Button */}
             <button
               type="submit"
               disabled={loading}
-              className="group relative w-full flex justify-center py-3 px-4 border border-transparent rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors"
+              className="w-full btn-primary-clean py-3 text-base rounded-xl shadow-md transition-colors"
             >
               {loading ? (
-                <span className="flex items-center">
+                <span className="flex items-center justify-center">
                   <svg
                     className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
                     xmlns="http://www.w3.org/2000/svg"
@@ -137,19 +141,20 @@ const ForgotPassword = () => {
                 "Send Reset Instructions"
               )}
             </button>
-          </div>
 
-          <div className="flex items-center justify-center">
-            <Link
-              to="/login"
-              className="group flex items-center text-sm font-medium text-indigo-600 hover:text-indigo-500"
-            >
-              <ArrowLeft size={16} className="mr-2" />
-              Back to Login
-            </Link>
-          </div>
-        </form>
-      </div>
+            {/* Back to Login */}
+            <div className="flex items-center justify-center pt-2">
+              <Link
+                to="/login"
+                className="group flex items-center text-sm font-medium text-brand-primary hover:underline"
+              >
+                <ArrowLeft size={16} className="mr-2" />
+                Back to Login
+              </Link>
+            </div>
+          </form>
+        </div>
+      </section>
     </div>
   );
 };

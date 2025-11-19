@@ -3,6 +3,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { useAuth } from "../context/AuthContext";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 const OTPVerify = () => {
   const { state } = useLocation();
@@ -17,6 +19,10 @@ const OTPVerify = () => {
   const inputRefs = useRef([]);
 
   const email = state?.email;
+
+  useEffect(() => {
+    AOS.init({ duration: 900, once: true });
+  }, []);
 
   useEffect(() => {
     // Focus on first input when component mounts
@@ -182,61 +188,73 @@ const OTPVerify = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-purple-50">
-      <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-xl shadow-lg mt-10 mb-10 border border-gray-100">
-        <div className="text-center">
-          <h2 className="text-3xl font-extrabold text-gray-800">
-            Verify Your Account
-          </h2>
-          <p className="mt-3 text-gray-600">
-            We've sent a 6-digit OTP to
-            <span className="font-medium text-indigo-600 ml-1">{email}</span>
-          </p>
-        </div>
-
-        {error && (
-          <div
-            className="p-4 text-sm text-red-700 bg-red-100 rounded-lg"
-            role="alert"
-          >
-            {error}
+    <div className="min-h-screen bg-brand-light">
+      {/* WRAPPER */}
+      <section className="section-shell pt-28 pb-20 flex justify-center items-start">
+        <div
+          data-aos="fade-up"
+          className="w-full max-w-md bg-white shadow-lg rounded-2xl p-6 md:p-10"
+        >
+          <div className="text-center mb-8">
+            <p className="text-xs font-semibold text-brand-primary uppercase tracking-wide">
+              Email Verification
+            </p>
+            <h1 className="text-3xl md:text-4xl font-extrabold text-brand-dark mt-1">
+              Verify Your Account
+            </h1>
+            <p className="text-gray-600 mt-3 text-sm">
+              We've sent a 6-digit OTP to
+              <span className="font-medium text-brand-primary ml-1 block sm:inline">
+                {email}
+              </span>
+            </p>
           </div>
-        )}
 
-        <form onSubmit={handleSubmit} className="mt-8 space-y-6">
-          <div>
-            <label
-              htmlFor="otp"
-              className="block text-sm font-medium text-gray-700 mb-3"
+          {/* Error Alert */}
+          {error && (
+            <div
+              className="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg"
+              role="alert"
             >
-              Enter verification code
-            </label>
-            <div className="flex justify-center gap-2 sm:gap-4">
-              {otp.map((digit, index) => (
-                <input
-                  key={index}
-                  ref={(el) => (inputRefs.current[index] = el)}
-                  type="text"
-                  maxLength="1"
-                  value={digit}
-                  onChange={(e) => handleChange(e, index)}
-                  onKeyDown={(e) => handleKeyDown(e, index)}
-                  onPaste={index === 0 ? handlePaste : undefined}
-                  className="w-12 h-14 text-center text-xl font-bold border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 shadow-sm bg-gray-50"
-                  aria-label={`Digit ${index + 1}`}
-                />
-              ))}
+              {error}
             </div>
-          </div>
+          )}
 
-          <div>
+          {/* FORM */}
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div>
+              <label
+                htmlFor="otp"
+                className="block text-sm font-medium text-gray-700 mb-3 text-center"
+              >
+                Enter verification code
+              </label>
+              <div className="flex justify-center gap-2 sm:gap-3">
+                {otp.map((digit, index) => (
+                  <input
+                    key={index}
+                    ref={(el) => (inputRefs.current[index] = el)}
+                    type="text"
+                    maxLength="1"
+                    value={digit}
+                    onChange={(e) => handleChange(e, index)}
+                    onKeyDown={(e) => handleKeyDown(e, index)}
+                    onPaste={index === 0 ? handlePaste : undefined}
+                    className="w-12 h-14 text-center text-xl font-bold border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-brand-primary/40 focus:border-brand-primary shadow-sm bg-gray-50 transition-all"
+                    aria-label={`Digit ${index + 1}`}
+                  />
+                ))}
+              </div>
+            </div>
+
+            {/* Submit Button */}
             <button
               type="submit"
               disabled={loading}
-              className="group relative w-full flex justify-center py-3 px-4 border border-transparent rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors font-medium text-lg shadow-md"
+              className="w-full btn-primary-clean py-3 text-base rounded-xl shadow-md transition-colors"
             >
               {loading ? (
-                <span className="flex items-center">
+                <span className="flex items-center justify-center">
                   <svg
                     className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
                     xmlns="http://www.w3.org/2000/svg"
@@ -260,31 +278,34 @@ const OTPVerify = () => {
                   Verifying...
                 </span>
               ) : (
-                <span className="flex items-center justify-center">
-                  Verify Account
-                </span>
+                "Verify Account"
               )}
             </button>
-          </div>
-        </form>
+          </form>
 
-        <div className="text-center mt-6">
-          <p className="text-gray-600 mb-2">Didn't receive the code?</p>
-          <button
-            onClick={handleResendOtp}
-            disabled={resendLoading || countdownActive}
-            className={`text-indigo-600 hover:text-indigo-800 font-medium ${
-              countdownActive ? "opacity-50 cursor-not-allowed" : ""
-            }`}
-          >
-            {resendLoading
-              ? "Resending..."
-              : countdownActive
-              ? `Resend OTP in ${countdown}s`
-              : "Resend OTP"}
-          </button>
+          {/* Resend OTP Section */}
+          <div className="text-center mt-6 pt-4 border-t border-gray-200">
+            <p className="text-gray-600 text-sm mb-2">
+              Didn't receive the code?
+            </p>
+            <button
+              onClick={handleResendOtp}
+              disabled={resendLoading || countdownActive}
+              className={`text-brand-primary hover:underline font-medium text-sm ${
+                countdownActive || resendLoading
+                  ? "opacity-50 cursor-not-allowed"
+                  : ""
+              }`}
+            >
+              {resendLoading
+                ? "Resending..."
+                : countdownActive
+                ? `Resend OTP in ${countdown}s`
+                : "Resend OTP"}
+            </button>
+          </div>
         </div>
-      </div>
+      </section>
     </div>
   );
 };

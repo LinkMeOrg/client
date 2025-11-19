@@ -1,47 +1,108 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
-import { Eye, EyeOff, Star, UserPlus } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
 import SocialAuthButtons from "../components/SocialAuthButtons";
-import { Link, useNavigate } from "react-router-dom"; // Import useNavigate
-import Swal from "sweetalert2"; // Import SweetAlert2
+import { Link, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
-    name: "",
+    firstname: "",
+    secondname: "",
+    lastname: "",
+    dob: "",
     email: "",
+    phone: "",
     password: "",
+    confirmPassword: "",
   });
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [passwordStrength, setPasswordStrength] = useState("");
+  const [agree, setAgree] = useState(false);
   const { login } = useAuth();
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+
+    // Check password strength when password field changes
+    if (name === "password") {
+      setPasswordStrength(checkPasswordStrength(value));
+    }
   };
 
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
   };
 
+  const toggleConfirmPasswordVisibility = () => {
+    setShowConfirmPassword((prev) => !prev);
+  };
+
+  // Password strength checker
+  const checkPasswordStrength = (password) => {
+    let strength = 0;
+    if (password.length >= 8) strength++;
+    if (password.length >= 12) strength++;
+    if (/[A-Z]/.test(password)) strength++;
+    if (/[0-9]/.test(password)) strength++;
+    if (/[^A-Za-z0-9]/.test(password)) strength++;
+
+    if (strength <= 1) return "Weak";
+    if (strength <= 3) return "Medium";
+    return "Strong";
+  };
+
+  // Email format regex
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
 
-    try {
-      const response = await axios.post("http://localhost:4000/auth/signup", {
-        name: formData.name,
-        email: formData.email,
-        password: formData.password,
-      });
+    // Validation
+    if (!emailRegex.test(formData.email)) {
+      setError("Please enter a valid email address.");
+      setLoading(false);
+      return;
+    }
 
-      // Successful response (2xx status)
+    if (formData.password !== formData.confirmPassword) {
+      setError("Passwords do not match.");
+      setLoading(false);
+      return;
+    }
+
+    if (!agree) {
+      setError("You must agree to the terms and conditions.");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const payload = {
+        firstName: formData.firstname,
+        secondName: formData.secondname,
+        lastName: formData.lastname,
+        dateOfBirth: formData.dob,
+        email: formData.email,
+        phoneNumber: formData.phone,
+        password: formData.password,
+      };
+
+      const response = await axios.post(
+        "http://localhost:4000/auth/signup",
+        payload
+      );
+
       if (response.status === 201) {
-        // Check if the response contains the OTP message
+        // OTP required
         if (response.data.message?.includes("OTP")) {
           await Swal.fire({
             icon: "info",
@@ -50,163 +111,250 @@ const SignUp = () => {
             confirmButtonText: "OK",
           });
           navigate("/verify-otp", { state: { email: formData.email } });
-        } else if (response.data.token) {
+        }
+        // Direct login
+        else if (response.data.token) {
           login(response.data.token);
           navigate("/");
         }
       }
     } catch (error) {
-      // This handles network errors or server errors (4xx/5xx)
-      if (error.response) {
-        // Server responded with an error status
-        if (
-          error.response.status === 201 &&
-          error.response.data?.message?.includes("OTP")
-        ) {
-          // Special case: 201 status but in error object
-          await Swal.fire({
-            icon: "info",
-            title: "OTP Verification Required",
-            text: error.response.data.message,
-            confirmButtonText: "OK",
-          });
-          navigate("/verify-otp", { state: { email: formData.email } });
-        } else {
-          // Actual error case
-          setError(
-            error.response.data?.message || "An error occurred during signup"
-          );
-        }
-      } else {
-        // Network error or other issues
-        setError("Network error. Please try again.");
-      }
+      // Handle server/network errors
+      const msg =
+        error.response?.data?.message || "An error occurred during signup";
+      setError(msg);
     } finally {
       setLoading(false);
     }
   };
 
+  const inputClasses =
+    "w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/40";
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-purple-50">
-      <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-xl shadow-lg mt-[5rem] mb-[5rem]">
-        <div className="text-center">
-          <div className="flex justify-center mb-2">
-            <div className="flex space-x-1">
-              {[1, 2, 3, 4, 5].map((star) => (
-                <Star
-                  key={star}
-                  size={24}
-                  className={
-                    star <= 4
-                      ? "fill-yellow-400 text-yellow-400"
-                      : "text-gray-300"
-                  }
-                />
-              ))}
-            </div>
+    <div className="min-h-screen bg-brand-light">
+      {/* WRAPPER */}
+      <section className="section-shell pt-28 pb-20 flex justify-center items-start">
+        <div
+          data-aos="fade-up"
+          className="w-full max-w-3xl bg-white shadow-lg rounded-2xl p-6 md:p-10"
+        >
+          <div className="text-center mb-8">
+            <p className="text-xs font-semibold text-brand-primary uppercase tracking-wide">
+              Create Account
+            </p>
+            <h1 className="text-3xl md:text-4xl font-extrabold text-brand-dark mt-1">
+              Join LinkMe Today
+            </h1>
+            <p className="text-gray-600 mt-3 text-sm">
+              Start building your smart digital identity in seconds.
+            </p>
           </div>
-          <h2 className="text-3xl font-bold text-gray-800">Join RateNest</h2>
-          <p className="mt-2 text-gray-600">
-            Create your account and start rating
-          </p>
-        </div>
 
-        {error && (
-          <div
-            className="p-4 text-sm text-red-700 bg-red-100 rounded-lg"
-            role="alert"
+          {/* Error Alert */}
+          {error && (
+            <div
+              className="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg"
+              role="alert"
+            >
+              {error}
+            </div>
+          )}
+
+          {/* FORM */}
+          <form
+            onSubmit={handleSubmit}
+            className="grid grid-cols-1 md:grid-cols-2 gap-4"
           >
-            {error}
-          </div>
-        )}
-
-        <form onSubmit={handleSubmit} className="mt-8 space-y-6">
-          <div className="space-y-5">
-            <div>
-              <label
-                htmlFor="name"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Full Name
+            {/* First Name */}
+            <div className="flex flex-col">
+              <label className="text-sm font-medium text-gray-700">
+                First Name
               </label>
-              <div className="mt-1 relative rounded-md shadow-sm">
-                <input
-                  id="name"
-                  name="name"
-                  type="text"
-                  required
-                  value={formData.name}
-                  onChange={handleChange}
-                  className="block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500"
-                  placeholder="John Doe"
-                />
-              </div>
+              <input
+                type="text"
+                name="firstname"
+                placeholder="Khaled"
+                required
+                value={formData.firstname}
+                onChange={handleChange}
+                className={`${inputClasses} w-full`}
+              />
             </div>
 
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-700"
-              >
+            {/* Second Name */}
+            <div className="flex flex-col">
+              <label className="text-sm font-medium text-gray-700">
+                Second Name
+              </label>
+              <input
+                type="text"
+                name="secondname"
+                placeholder="Mohammad"
+                required
+                value={formData.secondname}
+                onChange={handleChange}
+                className={`${inputClasses} w-full`}
+              />
+            </div>
+
+            {/* Last Name */}
+            <div className="flex flex-col">
+              <label className="text-sm font-medium text-gray-700">
+                Last Name
+              </label>
+              <input
+                type="text"
+                name="lastname"
+                placeholder="Ezat"
+                required
+                value={formData.lastname}
+                onChange={handleChange}
+                className={`${inputClasses} w-full`}
+              />
+            </div>
+
+            {/* Phone Number */}
+            <div className="flex flex-col">
+              <label className="text-sm font-medium text-gray-700">
+                Phone Number
+              </label>
+              <input
+                type="tel"
+                name="phone"
+                placeholder="+962 7X XXX XXXX"
+                required
+                value={formData.phone}
+                onChange={handleChange}
+                className={`${inputClasses} w-full`}
+              />
+            </div>
+
+            {/* Date of Birth */}
+            <div className="flex flex-col">
+              <label className="text-sm font-medium text-gray-700">
+                Date of Birth
+              </label>
+              <input
+                type="date"
+                name="dob"
+                required
+                value={formData.dob}
+                onChange={handleChange}
+                className={`${inputClasses} w-full`}
+              />
+            </div>
+
+            {/* Email */}
+            <div className="flex flex-col">
+              <label className="text-sm font-medium text-gray-700">
                 Email Address
               </label>
-              <div className="mt-1 relative rounded-md shadow-sm">
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  required
-                  value={formData.email}
-                  onChange={handleChange}
-                  className="block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500"
-                  placeholder="you@example.com"
-                />
-              </div>
+              <input
+                type="email"
+                name="email"
+                placeholder="you@example.com"
+                required
+                value={formData.email}
+                onChange={handleChange}
+                className={`${inputClasses} w-full`}
+              />
             </div>
 
-            <div>
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-gray-700"
-              >
+            {/* Password */}
+            <div className="flex flex-col relative">
+              <label className="text-sm font-medium text-gray-700">
                 Password
               </label>
-              <div className="mt-1 relative rounded-md shadow-sm">
-                <input
-                  id="password"
-                  name="password"
-                  type={showPassword ? "text" : "password"}
-                  autoComplete="new-password"
-                  required
-                  value={formData.password}
-                  onChange={handleChange}
-                  className="block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 pr-10"
-                  placeholder="••••••••"
-                />
-                <button
-                  type="button"
-                  onClick={togglePasswordVisibility}
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center"
+              <input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                placeholder="••••••••"
+                required
+                value={formData.password}
+                onChange={handleChange}
+                className={`${inputClasses} w-full pr-10 h-12`} // fixed height
+              />
+              <button
+                type="button"
+                onClick={togglePasswordVisibility}
+                className="absolute inset-y-0 right-0 pr-3 flex items-center h-full" // full height + center
+              >
+                {showPassword ? (
+                  <EyeOff size={20} className="text-gray-500 mt-5" />
+                ) : (
+                  <Eye size={20} className="text-gray-500 mt-5" />
+                )}
+              </button>
+              {passwordStrength && (
+                <p
+                  className={`text-xs mt-1 ${
+                    passwordStrength === "Weak"
+                      ? "text-red-500"
+                      : passwordStrength === "Medium"
+                      ? "text-yellow-600"
+                      : "text-green-600"
+                  }`}
                 >
-                  {showPassword ? (
-                    <EyeOff size={20} className="text-gray-500" />
-                  ) : (
-                    <Eye size={20} className="text-gray-500" />
-                  )}
-                </button>
-              </div>
+                  Password Strength: {passwordStrength}
+                </p>
+              )}
             </div>
-          </div>
 
-          <div>
+            {/* Confirm Password */}
+            <div className="flex flex-col relative">
+              <label className="text-sm font-medium text-gray-700">
+                Confirm Password
+              </label>
+              <input
+                type={showConfirmPassword ? "text" : "password"}
+                name="confirmPassword"
+                placeholder="••••••••"
+                required
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                className={`${inputClasses} w-full pr-10 h-12`} // fixed height
+              />
+              <button
+                type="button"
+                onClick={toggleConfirmPasswordVisibility}
+                className="absolute inset-y-0 right-0 pr-3 flex items-center h-full" // full height + center
+              >
+                {showConfirmPassword ? (
+                  <EyeOff size={20} className="text-gray-500 mt-5" />
+                ) : (
+                  <Eye size={20} className="text-gray-500 mt-5" />
+                )}
+              </button>
+            </div>
+
+            {/* Terms */}
+            <div className="col-span-1 md:col-span-2 flex items-center gap-3 mt-2">
+              <input
+                type="checkbox"
+                checked={agree}
+                onChange={(e) => setAgree(e.target.checked)}
+                className="w-4 h-4"
+              />
+              <p className="text-xs text-gray-600">
+                I agree to the{" "}
+                <Link
+                  to="/terms"
+                  className="text-brand-primary underline cursor-pointer"
+                >
+                  Terms & Conditions
+                </Link>
+              </p>
+            </div>
+
+            {/* Submit Button */}
             <button
               type="submit"
               disabled={loading}
-              className="group relative w-full flex justify-center py-3 px-4 border border-transparent rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors"
+              className="col-span-1 md:col-span-2 btn-primary-clean w-full py-3 text-base rounded-xl shadow-md transition-colors"
             >
               {loading ? (
-                <span className="flex items-center">
+                <span className="flex items-center justify-center">
                   <svg
                     className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
                     xmlns="http://www.w3.org/2000/svg"
@@ -230,28 +378,35 @@ const SignUp = () => {
                   Processing...
                 </span>
               ) : (
-                <span className="flex items-center">
-                  <UserPlus size={20} className="mr-2" />
-                  Create Account
-                </span>
+                "Create Account"
               )}
             </button>
+          </form>
+
+          {/* Divider */}
+          <div className="flex items-center justify-center my-6">
+            <div className="h-px w-1/3 bg-gray-200"></div>
+            <p className="mx-3 text-xs text-gray-500">or</p>
+            <div className="h-px w-1/3 bg-gray-200"></div>
           </div>
 
-          <div className="text-center">
-            <p className="text-sm text-gray-600">
+          {/* Social Auth Buttons */}
+          <SocialAuthButtons />
+
+          {/* Login Link */}
+          <div className="text-center text-sm text-gray-600 mt-6">
+            <p>
               Already have an account?{" "}
               <Link
                 to="/login"
-                className="font-medium text-indigo-600 hover:text-indigo-500"
+                className="text-brand-primary font-medium hover:underline"
               >
-                Sign in
+                Log In
               </Link>
             </p>
           </div>
-        </form>
-        <SocialAuthButtons />
-      </div>
+        </div>
+      </section>
     </div>
   );
 };

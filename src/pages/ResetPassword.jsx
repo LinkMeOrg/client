@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import { Star, Eye, EyeOff, Lock, Shield, Check } from "lucide-react";
+import { Eye, EyeOff, Lock, Shield, Check } from "lucide-react";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 const ResetPassword = () => {
   const { token } = useParams();
@@ -14,6 +16,10 @@ const ResetPassword = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [redirecting, setRedirecting] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    AOS.init({ duration: 900, once: true });
+  }, []);
 
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
@@ -72,80 +78,75 @@ const ResetPassword = () => {
     }
   };
 
+  const inputClasses =
+    "w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/40";
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-purple-50">
-      <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-xl shadow-lg">
-        <div className="text-center">
-          <div className="flex justify-center mb-2">
-            <div className="flex space-x-1">
-              {[1, 2, 3, 4, 5].map((star) => (
-                <Star
-                  key={star}
-                  size={24}
-                  className={
-                    star <= 4
-                      ? "fill-yellow-400 text-yellow-400"
-                      : "text-gray-300"
-                  }
-                />
-              ))}
+    <div className="min-h-screen bg-brand-light">
+      {/* WRAPPER */}
+      <section className="section-shell pt-28 pb-20 flex justify-center items-start">
+        <div
+          data-aos="fade-up"
+          className="w-full max-w-md bg-white shadow-lg rounded-2xl p-6 md:p-10"
+        >
+          <div className="text-center mb-8">
+            <p className="text-xs font-semibold text-brand-primary uppercase tracking-wide">
+              Password Reset
+            </p>
+            <h1 className="text-3xl md:text-4xl font-extrabold text-brand-dark mt-1">
+              Create New Password
+            </h1>
+            <p className="text-gray-600 mt-3 text-sm">
+              Set a strong password for your account.
+            </p>
+          </div>
+
+          {/* Success Message */}
+          {message && (
+            <div
+              className="p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg flex items-start"
+              role="alert"
+            >
+              <Check size={20} className="mr-2 mt-0.5 flex-shrink-0" />
+              <div>
+                <p className="font-medium">{message}</p>
+                {redirecting && (
+                  <p className="mt-1">
+                    Redirecting to login in {countdown} seconds...
+                  </p>
+                )}
+              </div>
             </div>
-          </div>
-          <h2 className="text-3xl font-bold text-gray-800">
-            Create New Password
-          </h2>
-          <p className="mt-2 text-gray-600">
-            Set a strong password for your account
-          </p>
-        </div>
+          )}
 
-        {message && (
-          <div
-            className="p-4 text-sm text-green-700 bg-green-100 rounded-lg flex items-start"
-            role="alert"
-          >
-            <Check size={20} className="mr-2 mt-0.5 flex-shrink-0" />
-            <div>
-              <p className="font-medium">{message}</p>
-              {redirecting && (
-                <p className="mt-1">
-                  Redirecting to login in {countdown} seconds...
-                </p>
-              )}
+          {/* Error Alert */}
+          {error && (
+            <div
+              className="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg"
+              role="alert"
+            >
+              {error}
             </div>
-          </div>
-        )}
+          )}
 
-        {error && (
-          <div
-            className="p-4 text-sm text-red-700 bg-red-100 rounded-lg"
-            role="alert"
-          >
-            {error}
-          </div>
-        )}
-
-        <form onSubmit={handleSubmit} className="mt-8 space-y-6">
-          <div className="space-y-5">
-            <div>
-              <label
-                htmlFor="newPassword"
-                className="block text-sm font-medium text-gray-700"
-              >
+          {/* FORM */}
+          <form onSubmit={handleSubmit} className="space-y-5">
+            {/* New Password */}
+            <div className="space-y-1">
+              <label className="text-sm font-medium text-gray-700">
                 New Password
               </label>
-              <div className="mt-1 relative rounded-md shadow-sm">
+              <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <Lock size={20} className="text-gray-400" />
                 </div>
                 <input
-                  id="newPassword"
                   type={showPassword ? "text" : "password"}
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
-                  className="block w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500"
                   placeholder="••••••••"
                   required
+                  className={`${inputClasses} pl-10 pr-10`}
                 />
                 <button
                   type="button"
@@ -161,48 +162,45 @@ const ResetPassword = () => {
               </div>
             </div>
 
-            <div>
-              <label
-                htmlFor="confirmPassword"
-                className="block text-sm font-medium text-gray-700"
-              >
+            {/* Confirm Password */}
+            <div className="space-y-1">
+              <label className="text-sm font-medium text-gray-700">
                 Confirm Password
               </label>
-              <div className="mt-1 relative rounded-md shadow-sm">
+              <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <Shield size={20} className="text-gray-400" />
                 </div>
                 <input
-                  id="confirmPassword"
                   type={showPassword ? "text" : "password"}
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500"
                   placeholder="••••••••"
                   required
+                  className={`${inputClasses} pl-10`}
                 />
               </div>
             </div>
 
             {/* Password strength indicator */}
             {newPassword.length > 0 && (
-              <div className="space-y-2">
+              <div className="space-y-2 pt-2">
                 <p className="text-sm font-medium text-gray-700">
                   Password must contain:
                 </p>
-                <ul className="text-sm space-y-1">
+                <ul className="text-sm space-y-1.5">
                   <li
                     className={`flex items-center ${
                       hasMinLength ? "text-green-600" : "text-gray-500"
                     }`}
                   >
                     <span
-                      className={`inline-block w-4 h-4 mr-2 rounded-full ${
+                      className={`inline-flex items-center justify-center w-5 h-5 mr-2 rounded-full ${
                         hasMinLength ? "bg-green-100" : "bg-gray-100"
                       }`}
                     >
                       {hasMinLength && (
-                        <Check size={16} className="text-green-600" />
+                        <Check size={14} className="text-green-600" />
                       )}
                     </span>
                     At least 8 characters
@@ -213,12 +211,12 @@ const ResetPassword = () => {
                     }`}
                   >
                     <span
-                      className={`inline-block w-4 h-4 mr-2 rounded-full ${
+                      className={`inline-flex items-center justify-center w-5 h-5 mr-2 rounded-full ${
                         hasUppercase ? "bg-green-100" : "bg-gray-100"
                       }`}
                     >
                       {hasUppercase && (
-                        <Check size={16} className="text-green-600" />
+                        <Check size={14} className="text-green-600" />
                       )}
                     </span>
                     At least one uppercase letter
@@ -229,12 +227,12 @@ const ResetPassword = () => {
                     }`}
                   >
                     <span
-                      className={`inline-block w-4 h-4 mr-2 rounded-full ${
+                      className={`inline-flex items-center justify-center w-5 h-5 mr-2 rounded-full ${
                         hasLowercase ? "bg-green-100" : "bg-gray-100"
                       }`}
                     >
                       {hasLowercase && (
-                        <Check size={16} className="text-green-600" />
+                        <Check size={14} className="text-green-600" />
                       )}
                     </span>
                     At least one lowercase letter
@@ -245,12 +243,12 @@ const ResetPassword = () => {
                     }`}
                   >
                     <span
-                      className={`inline-block w-4 h-4 mr-2 rounded-full ${
+                      className={`inline-flex items-center justify-center w-5 h-5 mr-2 rounded-full ${
                         hasNumber ? "bg-green-100" : "bg-gray-100"
                       }`}
                     >
                       {hasNumber && (
-                        <Check size={16} className="text-green-600" />
+                        <Check size={14} className="text-green-600" />
                       )}
                     </span>
                     At least one number
@@ -261,12 +259,12 @@ const ResetPassword = () => {
                     }`}
                   >
                     <span
-                      className={`inline-block w-4 h-4 mr-2 rounded-full ${
+                      className={`inline-flex items-center justify-center w-5 h-5 mr-2 rounded-full ${
                         hasSpecialChar ? "bg-green-100" : "bg-gray-100"
                       }`}
                     >
                       {hasSpecialChar && (
-                        <Check size={16} className="text-green-600" />
+                        <Check size={14} className="text-green-600" />
                       )}
                     </span>
                     At least one special character
@@ -278,12 +276,12 @@ const ResetPassword = () => {
                       }`}
                     >
                       <span
-                        className={`inline-block w-4 h-4 mr-2 rounded-full ${
+                        className={`inline-flex items-center justify-center w-5 h-5 mr-2 rounded-full ${
                           passwordsMatch ? "bg-green-100" : "bg-red-100"
                         }`}
                       >
                         {passwordsMatch && (
-                          <Check size={16} className="text-green-600" />
+                          <Check size={14} className="text-green-600" />
                         )}
                       </span>
                       Passwords match
@@ -292,16 +290,15 @@ const ResetPassword = () => {
                 </ul>
               </div>
             )}
-          </div>
 
-          <div>
+            {/* Submit Button */}
             <button
               type="submit"
               disabled={loading || redirecting}
-              className="group relative w-full flex justify-center py-3 px-4 border border-transparent rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
+              className="w-full btn-primary-clean py-3 text-base rounded-xl shadow-md transition-colors disabled:opacity-70 disabled:cursor-not-allowed mt-6"
             >
               {loading ? (
-                <span className="flex items-center">
+                <span className="flex items-center justify-center">
                   <svg
                     className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
                     xmlns="http://www.w3.org/2000/svg"
@@ -330,23 +327,24 @@ const ResetPassword = () => {
                 "Reset Password"
               )}
             </button>
-          </div>
 
-          {!redirecting && (
-            <div className="text-center">
-              <p className="text-sm text-gray-600">
-                Remember your password?{" "}
-                <Link
-                  to="/login"
-                  className="font-medium text-indigo-600 hover:text-indigo-500"
-                >
-                  Back to Login
-                </Link>
-              </p>
-            </div>
-          )}
-        </form>
-      </div>
+            {/* Back to Login */}
+            {!redirecting && (
+              <div className="text-center text-sm text-gray-600 pt-2">
+                <p>
+                  Remember your password?{" "}
+                  <Link
+                    to="/login"
+                    className="text-brand-primary font-medium hover:underline"
+                  >
+                    Back to Login
+                  </Link>
+                </p>
+              </div>
+            )}
+          </form>
+        </div>
+      </section>
     </div>
   );
 };

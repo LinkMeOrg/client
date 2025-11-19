@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
-import { Eye, EyeOff, Star, LogIn } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom"; // Import useNavigate
-
+import { Eye, EyeOff } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import AOS from "aos";
+import "aos/dist/aos.css";
 import SocialAuthButtons from "../components/SocialAuthButtons";
+import Swal from "sweetalert2";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -14,8 +16,13 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [rememberMe, setRememberMe] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    AOS.init({ duration: 900, once: true });
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -40,6 +47,14 @@ const Login = () => {
       if (response.data.token && response.data.user) {
         login(response.data.token, response.data.user);
 
+        // Show SweetAlert success message
+        await Swal.fire({
+          icon: "success",
+          title: "Login Successful",
+          text: `Welcome back, ${response.data.user.firstName}!`,
+          confirmButtonText: "Continue",
+        });
+
         const userRole = response.data.user.role;
 
         if (userRole === "user") {
@@ -61,177 +76,171 @@ const Login = () => {
     }
   };
 
+  const inputClasses =
+    "w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/40";
+
   return (
-    <>
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-purple-50">
-        <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-xl shadow-lg mt-[5rem] mb-[5rem]">
-          <div className="text-center ">
-            <div className="flex justify-center mb-2 ">
-              <div className="flex space-x-1">
-                {[1, 2, 3, 4, 5].map((star) => (
-                  <Star
-                    key={star}
-                    size={24}
-                    className={
-                      star <= 4
-                        ? "fill-yellow-400 text-yellow-400"
-                        : "text-gray-300"
-                    }
-                  />
-                ))}
-              </div>
-            </div>
-            <h2 className="text-3xl font-bold text-gray-800">Welcome Back</h2>
-            <p className="mt-2 text-gray-600">Sign in to continue rating</p>
+    <div className="min-h-screen bg-brand-light">
+      {/* WRAPPER */}
+      <section className="section-shell pt-28 pb-20 flex justify-center items-start">
+        <div
+          data-aos="fade-up"
+          className="w-full max-w-md bg-white shadow-lg rounded-2xl p-6 md:p-10"
+        >
+          <div className="text-center mb-8">
+            <p className="text-xs font-semibold text-brand-primary uppercase tracking-wide">
+              Welcome Back
+            </p>
+            <h1 className="text-3xl md:text-4xl font-extrabold text-brand-dark mt-1">
+              Sign in to LinkMe
+            </h1>
+            <p className="text-gray-600 mt-3 text-sm">
+              Access your digital identity and manage your profile.
+            </p>
           </div>
 
+          {/* Error Alert */}
           {error && (
             <div
-              className="p-4 text-sm text-red-700 bg-red-100 rounded-lg"
+              className="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg"
               role="alert"
             >
               {error}
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="mt-8 space-y-6 ">
-            <div className="space-y-5">
-              <div>
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Email Address
-                </label>
-                <div className="mt-1 relative rounded-md shadow-sm">
-                  <input
-                    id="email"
-                    name="email"
-                    type="email"
-                    autoComplete="email"
-                    required
-                    value={formData.email}
-                    onChange={handleChange}
-                    className="block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500"
-                    placeholder="you@example.com"
-                  />
-                </div>
-              </div>
+          {/* FORM */}
+          <form onSubmit={handleSubmit} className="space-y-5">
+            {/* Email */}
+            <div className="space-y-1">
+              <label className="text-sm font-medium text-gray-700">
+                Email Address
+              </label>
+              <input
+                type="email"
+                name="email"
+                placeholder="you@example.com"
+                required
+                value={formData.email}
+                onChange={handleChange}
+                autoComplete="email"
+                className={inputClasses}
+              />
+            </div>
 
-              <div>
-                <label
-                  htmlFor="password"
-                  className="block text-sm font-medium text-gray-700"
+            {/* Password */}
+            <div className="space-y-1">
+              <label className="text-sm font-medium text-gray-700">
+                Password
+              </label>
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  placeholder="••••••••"
+                  required
+                  value={formData.password}
+                  onChange={handleChange}
+                  autoComplete="current-password"
+                  className={`${inputClasses} pr-10`}
+                />
+                <button
+                  type="button"
+                  onClick={togglePasswordVisibility}
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center"
                 >
-                  Password
-                </label>
-                <div className="mt-1 relative rounded-md shadow-sm">
-                  <input
-                    id="password"
-                    name="password"
-                    type={showPassword ? "text" : "password"}
-                    autoComplete="current-password"
-                    required
-                    value={formData.password}
-                    onChange={handleChange}
-                    className="block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 pr-10"
-                    placeholder="••••••••"
-                  />
-                  <button
-                    type="button"
-                    onClick={togglePasswordVisibility}
-                    className="absolute inset-y-0 right-0 pr-3 flex items-center"
-                  >
-                    {showPassword ? (
-                      <EyeOff size={20} className="text-gray-500" />
-                    ) : (
-                      <Eye size={20} className="text-gray-500" />
-                    )}
-                  </button>
-                </div>
-              </div>
-
-              <div className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <input
-                    id="remember-me"
-                    name="remember-me"
-                    type="checkbox"
-                    className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-                  />
-                  <label
-                    htmlFor="remember-me"
-                    className="ml-2 block text-sm text-gray-700"
-                  >
-                    Remember me
-                  </label>
-                </div>
-                <div className="text-sm">
-                  <a
-                    href="/forgot-password"
-                    className="font-medium text-indigo-600 hover:text-indigo-500"
-                  >
-                    Forgot password?
-                  </a>
-                </div>
+                  {showPassword ? (
+                    <EyeOff size={20} className="text-gray-500" />
+                  ) : (
+                    <Eye size={20} className="text-gray-500" />
+                  )}
+                </button>
               </div>
             </div>
 
-            <div>
-              <button
-                type="submit"
-                disabled={loading}
-                className="group relative w-full flex justify-center py-3 px-4 border border-transparent rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors"
+            {/* Remember Me & Forgot Password */}
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  id="remember-me"
+                  checked={rememberMe}
+                  onChange={(e) => setRememberMe(e.target.checked)}
+                  className="w-4 h-4"
+                />
+                <label htmlFor="remember-me" className="text-xs text-gray-600">
+                  Remember me
+                </label>
+              </div>
+              <Link
+                to="/forgot-password"
+                className="text-xs text-brand-primary font-medium hover:underline"
               >
-                {loading ? (
-                  <span className="flex items-center">
-                    <svg
-                      className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                    >
-                      <circle
-                        className="opacity-25"
-                        cx="12"
-                        cy="12"
-                        r="10"
-                        stroke="currentColor"
-                        strokeWidth="4"
-                      ></circle>
-                      <path
-                        className="opacity-75"
-                        fill="currentColor"
-                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                      ></path>
-                    </svg>
-                    Processing...
-                  </span>
-                ) : (
-                  <span className="flex items-center">
-                    <LogIn size={20} className="mr-2" />
-                    Sign In
-                  </span>
-                )}
-              </button>
+                Forgot password?
+              </Link>
             </div>
 
-            <div className="text-center">
-              <p className="text-sm text-gray-600">
-                Don't have an account?{" "}
-                <Link
-                  to="/signup"
-                  className="font-medium text-indigo-600 hover:text-indigo-500"
-                >
-                  Sign up
-                </Link>
-              </p>
-            </div>
+            {/* Submit Button */}
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full btn-primary-clean py-3 text-base rounded-xl shadow-md transition-colors"
+            >
+              {loading ? (
+                <span className="flex items-center justify-center">
+                  <svg
+                    className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
+                  </svg>
+                  Processing...
+                </span>
+              ) : (
+                "Sign In"
+              )}
+            </button>
           </form>
+
+          {/* Divider */}
+          <div className="flex items-center justify-center my-6">
+            <div className="h-px w-1/3 bg-gray-200"></div>
+            <p className="mx-3 text-xs text-gray-500">or</p>
+            <div className="h-px w-1/3 bg-gray-200"></div>
+          </div>
+
+          {/* Social Auth Buttons */}
           <SocialAuthButtons />
+
+          {/* Sign Up Link */}
+          <div className="text-center text-sm text-gray-600 mt-6">
+            <p>
+              Don't have an account?{" "}
+              <Link
+                to="/signup"
+                className="text-brand-primary font-medium hover:underline"
+              >
+                Sign Up
+              </Link>
+            </p>
+          </div>
         </div>
-      </div>
-    </>
+      </section>
+    </div>
   );
 };
 
