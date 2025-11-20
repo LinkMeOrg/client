@@ -258,7 +258,7 @@
     @apply px-6 py-3 rounded-xl border border-brand-primary text-brand-primary hover:bg-brand-primary/10 transition font-medium;
   }
   .btn-accent {
-    @apply px-6 py-3 rounded-xl bg-brand-accent text-white font-medium hover:bg-red-600 transition shadow-md;
+    @apply px-6 py-3 rounded-xl bg-brand-accent text-white font-medium hover:bg-brand-accent/80 transition shadow-md;
   }
   .btn-primary-clean {
     @apply px-5 py-2 rounded-xl bg-brand-primary text-white font-semibold hover:bg-brand-primary/80 transition shadow-sm;

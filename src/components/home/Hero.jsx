@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Hero = () => {
   return (
@@ -22,10 +23,15 @@ const Hero = () => {
           </ul>
 
           <div className="flex flex-wrap gap-4 pt-4">
-            <a className="btn-accent flex items-center gap-2">
+            <Link
+              to="/create-card"
+              className="btn-accent flex items-center gap-2"
+            >
               Get Your Smart Card
-            </a>
-            <a className="btn-ghost">See Example Profile</a>
+            </Link>
+            <Link to="/gallery" className="btn-ghost">
+              See Example Profile
+            </Link>
           </div>
         </div>
 

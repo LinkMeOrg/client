@@ -43,6 +43,7 @@ import ScrollToTopButton from "./layout/ScrollToTopButton";
 // Route Guards
 import ProtectedRoute from "./components/ProtectedRoute";
 import GuestRoute from "./components/GuestRoute";
+import Gellary from "./pages/Gellary";
 
 const AppContent = () => {
   const location = useLocation();
@@ -94,6 +95,7 @@ const AppContent = () => {
         <Route path="/verify-account" element={<VerifyAccount />} />
         <Route path="/u/:slug" element={<PublicProfile />} />
         <Route path="/create-card" element={<CreateCard />} />
+        <Route path="/gallery" element={<Gellary />} />
 
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />
