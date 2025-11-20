@@ -25,6 +25,12 @@ import Terms from "./pages/Terms";
 import CreateCard from "./pages/CreateCard";
 import PublicProfile from "./pages/PublicProfile";
 import HowItWorks from "./pages/HowItWorks";
+import DashboardLayout from "./layout/DashboardLayout";
+import DashboardOverview from "./pages/dashboard/DashboardOverview";
+import MyProfiles from "./pages/dashboard/MyProfiles";
+import EditProfile from "./pages/dashboard/EditProfile";
+import Analytics from "./pages/dashboard/Analytics";
+import Settings from "./pages/dashboard/Settings";
 
 const AppContent = () => {
   const location = useLocation();
@@ -33,6 +39,7 @@ const AppContent = () => {
     "/signup",
     "/forgot-password",
     "/reset-password",
+    "/dashboard",
   ];
 
   const shouldHideNavbarFooter = hideNavbarFooterPaths.some((path) =>
@@ -57,12 +64,18 @@ const AppContent = () => {
         <Route path="/about" element={<About />} />
         <Route path="/oauth-success" element={<OAuthSuccessWrapper />} />
         <Route path="/verify-otp" element={<OTPVerify />} />
-
-        {/* new Route */}
         <Route path="/terms" element={<Terms />} />
         <Route path="/create-card" element={<CreateCard />} />
         <Route path="/u/:slug" element={<PublicProfile />} />
         <Route path="/how-it-works" element={<HowItWorks />} />
+
+        <Route path="/dashboard" element={<DashboardLayout />}>
+          <Route index element={<DashboardOverview />} />
+          <Route path="profiles" element={<MyProfiles />} />
+          <Route path="profiles/:id" element={<EditProfile />} />
+          <Route path="analytics" element={<Analytics />} />
+          <Route path="settings" element={<Settings />} />
+        </Route>
       </Routes>
       {!shouldHideNavbarFooter && <Footer />}
       <ScrollToTopButton />
