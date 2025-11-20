@@ -24,6 +24,7 @@ import ScrollToTopButton from "./layout/ScrollToTopButton";
 import Terms from "./pages/Terms";
 import CreateCard from "./pages/CreateCard";
 import PublicProfile from "./pages/PublicProfile";
+import HowItWorks from "./pages/HowItWorks";
 
 const AppContent = () => {
   const location = useLocation();
@@ -61,6 +62,7 @@ const AppContent = () => {
         <Route path="/terms" element={<Terms />} />
         <Route path="/create-card" element={<CreateCard />} />
         <Route path="/u/:slug" element={<PublicProfile />} />
+        <Route path="/how-it-works" element={<HowItWorks />} />
       </Routes>
       {!shouldHideNavbarFooter && <Footer />}
       <ScrollToTopButton />

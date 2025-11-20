@@ -1,629 +1,541 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import {
+  CreditCard,
+  Users,
+  Zap,
+  Shield,
+  Globe,
+  Smartphone,
+  CheckCircle,
+  ArrowRight,
+  Sparkles,
+  Target,
+  Heart,
+  TrendingUp,
+} from "lucide-react";
 
-const About = () => {
+const AboutUs = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
+    <div className="bg-white overflow-hidden">
       {/* Hero Section */}
-      <div className="relative bg-blue-600 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32">
-          <div className="text-center">
-            <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight">
-              About RateNest
-            </h1>
-            <p className="mt-4 text-xl max-w-3xl mx-auto">
-              Where honest reviews meet thoughtful consumers
-            </p>
-          </div>
+      <section className="relative bg-brand-gradient to-brand-dark text-white py-24 px-4 overflow-hidden">
+        {/* Animated Background Elements */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute w-96 h-96 bg-white/5 rounded-full blur-3xl -top-48 -left-48 animate-pulse"></div>
+          <div className="absolute w-96 h-96 bg-brand-accent/10 rounded-full blur-3xl -bottom-48 -right-48 animate-pulse delay-700"></div>
         </div>
-        <div className="absolute bottom-0 inset-x-0 h-16 bg-white transform skew-y-3 -translate-y-8 z-10"></div>
-      </div>
 
-      {/* Mission Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="lg:text-center">
-          <h2 className="text-base text-blue-600 font-semibold tracking-wide uppercase">
-            Our Mission
-          </h2>
-          <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-            Empowering Better Decisions
+        <div className="max-w-6xl mx-auto text-center relative z-10">
+          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full mb-6 border border-white/20">
+            <Sparkles className="w-4 h-4" />
+            <span className="text-sm font-medium">
+              Next Generation Networking
+            </span>
+          </div>
+          <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-200">
+            Revolutionizing Connections
+            <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-200 to-white">
+              with Smart NFC Cards
+            </span>
+          </h1>
+          <p className="text-xl md:text-2xl mb-10 text-gray-100 max-w-3xl mx-auto leading-relaxed">
+            Transform how you share information in the digital age. One tap,
+            endless possibilities, zero waste.
           </p>
-          <p className="mt-4 max-w-3xl mx-auto text-xl text-gray-500 lg:mx-auto">
-            At RateNest, we believe in the power of authentic feedback to
-            transform the way people discover and choose products and services.
-          </p>
-        </div>
-
-        <div className="mt-16">
-          <div className="space-y-10 md:space-y-0 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-10">
-            <div className="flex">
-              <div className="flex-shrink-0">
-                <div className="flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white">
-                  <svg
-                    className="h-6 w-6"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M5 13l4 4L19 7"
-                    />
-                  </svg>
-                </div>
-              </div>
-              <div className="ml-4">
-                <h3 className="text-lg leading-6 font-medium text-gray-900">
-                  Authentic Reviews
-                </h3>
-                <p className="mt-2 text-base text-gray-500">
-                  We verify reviewers and moderate content to ensure you get
-                  genuine insights from real users.
-                </p>
-              </div>
-            </div>
-
-            <div className="flex">
-              <div className="flex-shrink-0">
-                <div className="flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white">
-                  <svg
-                    className="h-6 w-6"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
-                    />
-                  </svg>
-                </div>
-              </div>
-              <div className="ml-4">
-                <h3 className="text-lg leading-6 font-medium text-gray-900">
-                  Trusted Platform
-                </h3>
-                <p className="mt-2 text-base text-gray-500">
-                  Our rating system is designed to be fair, transparent, and
-                  immune to manipulation.
-                </p>
-              </div>
-            </div>
-
-            <div className="flex">
-              <div className="flex-shrink-0">
-                <div className="flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white">
-                  <svg
-                    className="h-6 w-6"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M13 10V3L4 14h7v7l9-11h-7z"
-                    />
-                  </svg>
-                </div>
-              </div>
-              <div className="ml-4">
-                <h3 className="text-lg leading-6 font-medium text-gray-900">
-                  Actionable Insights
-                </h3>
-                <p className="mt-2 text-base text-gray-500">
-                  We go beyond stars and ratings to provide detailed analytics
-                  and recommendations.
-                </p>
-              </div>
-            </div>
-
-            <div className="flex">
-              <div className="flex-shrink-0">
-                <div className="flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white">
-                  <svg
-                    className="h-6 w-6"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
-                    />
-                  </svg>
-                </div>
-              </div>
-              <div className="ml-4">
-                <h3 className="text-lg leading-6 font-medium text-gray-900">
-                  Community-Driven
-                </h3>
-                <p className="mt-2 text-base text-gray-500">
-                  We foster a community of discerning consumers who value honest
-                  feedback and quality.
-                </p>
-              </div>
-            </div>
+          <div className="flex flex-wrap justify-center gap-4">
+            <button className="group bg-brand-accent hover:bg-red-600 text-white px-8 py-4 rounded-xl font-semibold flex items-center gap-2 transition-all transform hover:scale-105 shadow-lg hover:shadow-2xl">
+              Get Your Card
+              <ArrowRight
+                size={20}
+                className="group-hover:translate-x-1 transition-transform"
+              />
+            </button>
+            <button className="bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white px-8 py-4 rounded-xl font-semibold transition-all border border-white/20 hover:border-white/40">
+              Watch Demo
+            </button>
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Story Section */}
-      <div className="bg-blue-50 py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="lg:grid lg:grid-cols-2 lg:gap-8 items-center">
-            <div>
-              <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
-                Our Story
-              </h2>
-              <p className="mt-3 max-w-3xl text-lg text-gray-500">
-                RateNest was born from a simple frustration: finding reliable
-                reviews for products and services was too difficult. Our
-                founders spent hours researching purchases only to be
-                disappointed by biased or fake reviews.
-              </p>
-              <p className="mt-3 max-w-3xl text-lg text-gray-500">
-                In 2023, we launched RateNest with a mission to create a haven
-                for authentic feedback. We built sophisticated verification
-                systems and cultivated a community of trustworthy reviewers.
-              </p>
-              <p className="mt-3 max-w-3xl text-lg text-gray-500">
-                Today, millions of consumers rely on RateNest to make informed
-                decisions, and thousands of businesses value our platform for
-                genuine customer insights.
-              </p>
-            </div>
-            <div className="mt-10 lg:mt-0">
-              <div className="bg-white rounded-lg shadow-xl overflow-hidden">
-                <div className="bg-blue-600 px-6 py-8 sm:p-10 sm:pb-6">
-                  <div className="flex items-center justify-center h-20 w-20 rounded-md bg-white text-blue-600 mx-auto">
-                    <svg
-                      className="h-12 w-12"
-                      fill="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                    </svg>
-                  </div>
-                  <div className="text-center mt-5">
-                    <h3 className="text-2xl leading-8 font-extrabold text-white tracking-tight sm:text-3xl sm:leading-9">
-                      Our Values
-                    </h3>
-                  </div>
-                </div>
-                <div className="px-6 pt-6 pb-8 bg-white sm:p-10 sm:pt-6">
-                  <ul className="space-y-4">
-                    <li className="flex items-start">
-                      <div className="flex-shrink-0">
-                        <svg
-                          className="h-6 w-6 text-green-500"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M5 13l4 4L19 7"
-                          />
-                        </svg>
-                      </div>
-                      <p className="ml-3 text-base text-gray-700">
-                        <span className="font-bold">Integrity:</span> We uphold
-                        the highest standards of honesty and transparency.
-                      </p>
-                    </li>
-                    <li className="flex items-start">
-                      <div className="flex-shrink-0">
-                        <svg
-                          className="h-6 w-6 text-green-500"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M5 13l4 4L19 7"
-                          />
-                        </svg>
-                      </div>
-                      <p className="ml-3 text-base text-gray-700">
-                        <span className="font-bold">Empowerment:</span> We give
-                        consumers the information they need to make confident
-                        choices.
-                      </p>
-                    </li>
-                    <li className="flex items-start">
-                      <div className="flex-shrink-0">
-                        <svg
-                          className="h-6 w-6 text-green-500"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M5 13l4 4L19 7"
-                          />
-                        </svg>
-                      </div>
-                      <p className="ml-3 text-base text-gray-700">
-                        <span className="font-bold">Quality:</span> We focus on
-                        detailed, thoughtful reviews rather than quantity.
-                      </p>
-                    </li>
-                    <li className="flex items-start">
-                      <div className="flex-shrink-0">
-                        <svg
-                          className="h-6 w-6 text-green-500"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M5 13l4 4L19 7"
-                          />
-                        </svg>
-                      </div>
-                      <p className="ml-3 text-base text-gray-700">
-                        <span className="font-bold">Innovation:</span> We
-                        continuously improve our platform with cutting-edge
-                        technology.
-                      </p>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Team Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <div className="text-center">
-          <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
-            Meet Our Team
-          </h2>
-          <p className="mt-3 max-w-2xl mx-auto text-xl text-gray-500 sm:mt-4">
-            Passionate professionals committed to transforming how people
-            discover quality products and services.
-          </p>
-        </div>
-        <div className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {/* Team Member 1 */}
-          <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-            <div className="bg-blue-600 h-32"></div>
-            <div className="px-6 py-8 relative">
-              <div className="absolute -mt-16 left-1/2 transform -translate-x-1/2">
-                <div className="h-24 w-24 rounded-full bg-gray-200 border-4 border-white flex items-center justify-center">
-                  <svg
-                    className="h-12 w-12 text-gray-400"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M12 12a5 5 0 100-10 5 5 0 000 10zm0 2c-5.67 0-11 2.45-11 7v1c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2v-1c0-4.55-5.33-7-11-7z" />
-                  </svg>
-                </div>
-              </div>
-              <div className="text-center mt-10">
-                <h3 className="text-xl font-bold text-gray-900">
-                  Sarah Johnson
-                </h3>
-                <p className="text-blue-600 font-medium">Co-Founder & CEO</p>
-                <p className="mt-2 text-gray-500">
-                  Former product manager with a passion for consumer advocacy
-                  and transparent business practices.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* Team Member 2 */}
-          <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-            <div className="bg-blue-600 h-32"></div>
-            <div className="px-6 py-8 relative">
-              <div className="absolute -mt-16 left-1/2 transform -translate-x-1/2">
-                <div className="h-24 w-24 rounded-full bg-gray-200 border-4 border-white flex items-center justify-center">
-                  <svg
-                    className="h-12 w-12 text-gray-400"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M12 12a5 5 0 100-10 5 5 0 000 10zm0 2c-5.67 0-11 2.45-11 7v1c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2v-1c0-4.55-5.33-7-11-7z" />
-                  </svg>
-                </div>
-              </div>
-              <div className="text-center mt-10">
-                <h3 className="text-xl font-bold text-gray-900">
-                  Michael Chen
-                </h3>
-                <p className="text-blue-600 font-medium">Co-Founder & CTO</p>
-                <p className="mt-2 text-gray-500">
-                  Data scientist specialized in developing algorithms that
-                  detect patterns and ensure review authenticity.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* Team Member 3 */}
-          <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-            <div className="bg-blue-600 h-32"></div>
-            <div className="px-6 py-8 relative">
-              <div className="absolute -mt-16 left-1/2 transform -translate-x-1/2">
-                <div className="h-24 w-24 rounded-full bg-gray-200 border-4 border-white flex items-center justify-center">
-                  <svg
-                    className="h-12 w-12 text-gray-400"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M12 12a5 5 0 100-10 5 5 0 000 10zm0 2c-5.67 0-11 2.45-11 7v1c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2v-1c0-4.55-5.33-7-11-7z" />
-                  </svg>
-                </div>
-              </div>
-              <div className="text-center mt-10">
-                <h3 className="text-xl font-bold text-gray-900">Priya Patel</h3>
-                <p className="text-blue-600 font-medium">Head of Community</p>
-                <p className="mt-2 text-gray-500">
-                  Community building expert who fosters engagement and ensures
-                  quality standards across our platform.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* How It Works Section */}
-      <div className="bg-gray-50 py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
-              How RateNest Works
-            </h2>
-            <p className="mt-3 max-w-2xl mx-auto text-xl text-gray-500 sm:mt-4">
-              Our innovative approach to product and service reviews
-            </p>
-          </div>
-
-          <div className="mt-16">
-            <div className="relative">
-              <div
-                className="absolute inset-0 flex items-center"
-                aria-hidden="true"
-              >
-                <div className="w-full border-t border-gray-300"></div>
-              </div>
-              <div className="relative flex justify-center">
-                <span className="px-3 bg-gray-50 text-lg font-medium text-gray-900">
-                  The RateNest Difference
+      {/* Our Story Section */}
+      <section className="py-24 px-4 bg-gradient-to-b from-white to-brand-light">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-16 items-center">
+            <div className="space-y-6">
+              <div className="inline-block">
+                <span className="text-brand-primary font-semibold text-sm uppercase tracking-wider bg-blue-50 px-4 py-2 rounded-full">
+                  Our Journey
                 </span>
               </div>
+              <h2 className="text-5xl font-bold text-brand-dark leading-tight">
+                Redefining Professional
+                <span className="text-brand-primary"> Networking</span>
+              </h2>
+              <div className="space-y-4">
+                <p className="text-lg text-gray-700 leading-relaxed">
+                  Founded in 2024, we identified a critical gap in professional
+                  networking: traditional business cards are wasteful, outdated,
+                  and limited in functionality.
+                </p>
+                <p className="text-lg text-gray-700 leading-relaxed">
+                  We engineered a solution that seamlessly merges physical
+                  elegance with digital power. Our smart NFC cards create a
+                  bridge between tangible connection and limitless digital
+                  possibilities.
+                </p>
+                <p className="text-lg text-gray-700 leading-relaxed">
+                  Today, we're proud to empower thousands of forward-thinking
+                  professionals worldwide to make unforgettable first
+                  impressions and build lasting relationships.
+                </p>
+              </div>
             </div>
 
-            <div className="mt-8 max-w-lg mx-auto grid gap-5 lg:grid-cols-3 lg:max-w-none">
-              <div className="flex flex-col rounded-lg shadow-lg overflow-hidden">
-                <div className="flex-1 bg-white p-6 flex flex-col justify-between">
-                  <div className="flex-1">
-                    <div className="flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white mx-auto">
-                      <svg
-                        className="h-6 w-6"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
-                        />
-                      </svg>
+            <div className="relative">
+              <div className="bg-brand-gradient p-10 rounded-3xl shadow-2xl transform hover:scale-105 transition-transform duration-300">
+                <div className="space-y-8">
+                  <div className="flex items-center gap-6 bg-white/10 backdrop-blur-sm p-6 rounded-2xl border border-white/20 hover:bg-white/20 transition-all">
+                    <div className="bg-white/20 p-4 rounded-xl backdrop-blur-sm">
+                      <Users className="text-white w-8 h-8" />
                     </div>
-                    <p className="mt-3 text-base text-gray-500 text-center">
-                      <span className="block text-lg font-medium text-gray-900">
-                        Verified Reviews
-                      </span>
-                      <span className="block mt-1">
-                        We verify all reviewers through a multi-step process to
-                        ensure authenticity.
-                      </span>
-                    </p>
+                    <div>
+                      <h3 className="font-bold text-3xl text-white mb-1">
+                        50,000+
+                      </h3>
+                      <p className="text-blue-100 font-medium">Active Users</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-6 bg-white/10 backdrop-blur-sm p-6 rounded-2xl border border-white/20 hover:bg-white/20 transition-all">
+                    <div className="bg-white/20 p-4 rounded-xl backdrop-blur-sm">
+                      <Globe className="text-white w-8 h-8" />
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-3xl text-white mb-1">
+                        120+
+                      </h3>
+                      <p className="text-blue-100 font-medium">
+                        Countries Worldwide
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-6 bg-white/10 backdrop-blur-sm p-6 rounded-2xl border border-white/20 hover:bg-white/20 transition-all">
+                    <div className="bg-white/20 p-4 rounded-xl backdrop-blur-sm">
+                      <Zap className="text-white w-8 h-8" />
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-3xl text-white mb-1">
+                        1M+
+                      </h3>
+                      <p className="text-blue-100 font-medium">
+                        Connections Made
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
-
-              <div className="flex flex-col rounded-lg shadow-lg overflow-hidden">
-                <div className="flex-1 bg-white p-6 flex flex-col justify-between">
-                  <div className="flex-1">
-                    <div className="flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white mx-auto">
-                      <svg
-                        className="h-6 w-6"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
-                        />
-                      </svg>
-                    </div>
-                    <p className="mt-3 text-base text-gray-500 text-center">
-                      <span className="block text-lg font-medium text-gray-900">
-                        Smart Analytics
-                      </span>
-                      <span className="block mt-1">
-                        Our AI-powered system analyzes reviews to highlight the
-                        most helpful feedback.
-                      </span>
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex flex-col rounded-lg shadow-lg overflow-hidden">
-                <div className="flex-1 bg-white p-6 flex flex-col justify-between">
-                  <div className="flex-1">
-                    <div className="flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white mx-auto">
-                      <svg
-                        className="h-6 w-6"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
-                        />
-                      </svg>
-                    </div>
-                    <p className="mt-3 text-base text-gray-500 text-center">
-                      <span className="block text-lg font-medium text-gray-900">
-                        Community Focus
-                      </span>
-                      <span className="block mt-1">
-                        We foster discussion and reward helpful contributions
-                        from our community members.
-                      </span>
-                    </p>
-                  </div>
-                </div>
-              </div>
+              {/* Decorative elements */}
+              <div className="absolute -z-10 -top-6 -right-6 w-72 h-72 bg-brand-accent/20 rounded-3xl blur-3xl"></div>
+              <div className="absolute -z-10 -bottom-6 -left-6 w-72 h-72 bg-brand-primary/20 rounded-3xl blur-3xl"></div>
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Testimonials */}
-      <div className="bg-white py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <h2 className="text-3xl font-extrabold text-gray-900">
-              What People Are Saying
+      {/* What We Do Section */}
+      <section className="py-24 px-4 bg-white">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            <span className="text-brand-primary font-semibold text-sm uppercase tracking-wider bg-blue-50 px-4 py-2 rounded-full inline-block mb-4">
+              Our Solutions
+            </span>
+            <h2 className="text-5xl font-bold text-brand-dark mb-6">
+              What We <span className="text-brand-primary">Offer</span>
             </h2>
-            <p className="mt-3 max-w-2xl mx-auto text-xl text-gray-500">
-              From consumers to business owners, hear what our community thinks
-              about RateNest.
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Smart NFC technology that transforms networking into an elegant,
+              sustainable, and memorable experience.
             </p>
           </div>
-          <div className="mt-12 space-y-8 md:space-y-0 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-10">
-            <div className="bg-gray-50 rounded-lg p-8 border border-gray-200">
-              <div className="flex items-start">
-                <div className="flex-shrink-0">
-                  <svg
-                    className="h-12 w-12 text-blue-500"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M18 2H6a2 2 0 00-2 2v16c0 1.1.9 2 2 2h12a2 2 0 002-2V4a2 2 0 00-2-2zm0 18H6V4h12v16zM9 5h6v2H9V5zm6 4H9v2h6V9zm6 4H9v2h12v-2zm0 4H9v2h12v-2z" />
-                  </svg>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {/* Card 1 */}
+            <div className="group relative bg-gradient-to-br from-white to-blue-50 p-8 rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-blue-100 hover:border-brand-primary hover:-translate-y-2">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-brand-primary/5 rounded-full blur-2xl group-hover:bg-brand-primary/10 transition-all"></div>
+              <div className="relative">
+                <div className="bg-gradient-to-br from-brand-primary to-blue-600 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 transition-transform">
+                  <CreditCard className="text-white" size={28} />
                 </div>
-                <div className="ml-4">
-                  <p className="text-gray-500 italic">
-                    "RateNest has completely changed how I shop online. The
-                    verified reviews give me confidence that I'm seeing real
-                    opinions, not paid endorsements."
-                  </p>
-                  <div className="mt-3">
-                    <p className="text-base font-medium text-gray-900">
-                      Alicia Smith
-                    </p>
-                    <p className="text-sm text-gray-500">Consumer</p>
-                  </div>
-                </div>
+                <h3 className="text-2xl font-bold mb-4 text-brand-dark">
+                  Smart NFC Cards
+                </h3>
+                <p className="text-gray-600 mb-6 leading-relaxed">
+                  Premium physical cards embedded with cutting-edge NFC
+                  technology. Share your digital presence instantly with a
+                  simple tap.
+                </p>
+                <ul className="space-y-3">
+                  <li className="flex items-center gap-3 text-gray-700">
+                    <div className="bg-brand-primary/10 p-1 rounded-full">
+                      <CheckCircle className="text-brand-primary" size={18} />
+                    </div>
+                    <span className="text-sm font-medium">
+                      Waterproof & ultra-durable
+                    </span>
+                  </li>
+                  <li className="flex items-center gap-3 text-gray-700">
+                    <div className="bg-brand-primary/10 p-1 rounded-full">
+                      <CheckCircle className="text-brand-primary" size={18} />
+                    </div>
+                    <span className="text-sm font-medium">
+                      Fully customizable designs
+                    </span>
+                  </li>
+                  <li className="flex items-center gap-3 text-gray-700">
+                    <div className="bg-brand-primary/10 p-1 rounded-full">
+                      <CheckCircle className="text-brand-primary" size={18} />
+                    </div>
+                    <span className="text-sm font-medium">
+                      Universal smartphone compatibility
+                    </span>
+                  </li>
+                </ul>
               </div>
             </div>
 
-            <div className="bg-gray-50 rounded-lg p-8 border border-gray-200">
-              <div className="flex items-start">
-                <div className="flex-shrink-0">
-                  <svg
-                    className="h-12 w-12 text-blue-500"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M18 2H6a2 2 0 00-2 2v16c0 1.1.9 2 2 2h12a2 2 0 002-2V4a2 2 0 00-2-2zm0 18H6V4h12v16zM9 5h6v2H9V5zm6 4H9v2h6V9zm6 4H9v2h12v-2zm0 4H9v2h12v-2z" />
-                  </svg>
+            {/* Card 2 */}
+            <div className="group relative bg-gradient-to-br from-white to-red-50 p-8 rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-red-100 hover:border-brand-accent hover:-translate-y-2">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-brand-accent/5 rounded-full blur-2xl group-hover:bg-brand-accent/10 transition-all"></div>
+              <div className="relative">
+                <div className="bg-gradient-to-br from-brand-accent to-red-500 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 transition-transform">
+                  <Smartphone className="text-white" size={28} />
                 </div>
-                <div className="ml-4">
-                  <p className="text-gray-500 italic">
-                    "As a small business owner, RateNest has been invaluable.
-                    The detailed feedback helps us improve our products, and the
-                    verification system prevents competitors from posting fake
-                    negative reviews."
-                  </p>
-                  <div className="mt-3">
-                    <p className="text-base font-medium text-gray-900">
-                      David Rodriguez
-                    </p>
-                    <p className="text-sm text-gray-500">Business Owner</p>
-                  </div>
+                <h3 className="text-2xl font-bold mb-4 text-brand-dark">
+                  Digital Profiles
+                </h3>
+                <p className="text-gray-600 mb-6 leading-relaxed">
+                  Build a stunning digital profile that showcases your complete
+                  professional identity. Update instantly, share everywhere.
+                </p>
+                <ul className="space-y-3">
+                  <li className="flex items-center gap-3 text-gray-700">
+                    <div className="bg-brand-accent/10 p-1 rounded-full">
+                      <CheckCircle className="text-brand-accent" size={18} />
+                    </div>
+                    <span className="text-sm font-medium">
+                      Unlimited real-time updates
+                    </span>
+                  </li>
+                  <li className="flex items-center gap-3 text-gray-700">
+                    <div className="bg-brand-accent/10 p-1 rounded-full">
+                      <CheckCircle className="text-brand-accent" size={18} />
+                    </div>
+                    <span className="text-sm font-medium">
+                      Full social media integration
+                    </span>
+                  </li>
+                  <li className="flex items-center gap-3 text-gray-700">
+                    <div className="bg-brand-accent/10 p-1 rounded-full">
+                      <CheckCircle className="text-brand-accent" size={18} />
+                    </div>
+                    <span className="text-sm font-medium">
+                      Advanced analytics dashboard
+                    </span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Card 3 */}
+            <div className="group relative bg-gradient-to-br from-white to-blue-50 p-8 rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-blue-100 hover:border-brand-primary hover:-translate-y-2">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-brand-primary/5 rounded-full blur-2xl group-hover:bg-brand-primary/10 transition-all"></div>
+              <div className="relative">
+                <div className="bg-gradient-to-br from-brand-primary to-blue-600 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 transition-transform">
+                  <Shield className="text-white" size={28} />
                 </div>
+                <h3 className="text-2xl font-bold mb-4 text-brand-dark">
+                  Secure Platform
+                </h3>
+                <p className="text-gray-600 mb-6 leading-relaxed">
+                  Enterprise-grade security protecting your data. Full control
+                  over your information with comprehensive analytics.
+                </p>
+                <ul className="space-y-3">
+                  <li className="flex items-center gap-3 text-gray-700">
+                    <div className="bg-brand-primary/10 p-1 rounded-full">
+                      <CheckCircle className="text-brand-primary" size={18} />
+                    </div>
+                    <span className="text-sm font-medium">
+                      End-to-end encryption
+                    </span>
+                  </li>
+                  <li className="flex items-center gap-3 text-gray-700">
+                    <div className="bg-brand-primary/10 p-1 rounded-full">
+                      <CheckCircle className="text-brand-primary" size={18} />
+                    </div>
+                    <span className="text-sm font-medium">
+                      Granular privacy controls
+                    </span>
+                  </li>
+                  <li className="flex items-center gap-3 text-gray-700">
+                    <div className="bg-brand-primary/10 p-1 rounded-full">
+                      <CheckCircle className="text-brand-primary" size={18} />
+                    </div>
+                    <span className="text-sm font-medium">
+                      GDPR fully compliant
+                    </span>
+                  </li>
+                </ul>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </section>
+
+      {/* How It Works Section */}
+      <section className="py-24 px-4 bg-gradient-to-b from-brand-light to-white relative overflow-hidden">
+        <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
+        <div className="max-w-6xl mx-auto relative z-10">
+          <div className="text-center mb-20">
+            <span className="text-brand-primary font-semibold text-sm uppercase tracking-wider bg-blue-50 px-4 py-2 rounded-full inline-block mb-4">
+              Simple Process
+            </span>
+            <h2 className="text-5xl font-bold text-brand-dark mb-6">
+              How It <span className="text-brand-primary">Works</span>
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Get started in three effortless steps
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-12 relative">
+            {/* Connection Lines */}
+            <div className="hidden md:block absolute top-20 left-0 right-0 h-1 bg-gradient-to-r from-brand-primary via-brand-accent to-brand-primary opacity-20"></div>
+
+            <div className="text-center relative">
+              <div className="relative inline-block mb-8">
+                <div className="bg-gradient-to-br from-brand-primary to-blue-600 text-white w-20 h-20 rounded-2xl flex items-center justify-center text-3xl font-bold shadow-xl transform hover:scale-110 transition-transform">
+                  1
+                </div>
+                <div className="absolute -top-2 -right-2 w-6 h-6 bg-brand-accent rounded-full animate-ping"></div>
+                <div className="absolute -top-2 -right-2 w-6 h-6 bg-brand-accent rounded-full"></div>
+              </div>
+              <h3 className="text-2xl font-bold mb-4 text-brand-dark">
+                Create Your Profile
+              </h3>
+              <p className="text-gray-600 leading-relaxed">
+                Sign up and craft your digital profile in minutes. Add contact
+                details, social links, portfolio, and customize your design to
+                reflect your unique brand.
+              </p>
+            </div>
+
+            <div className="text-center relative">
+              <div className="relative inline-block mb-8">
+                <div className="bg-gradient-to-br from-brand-accent to-red-500 text-white w-20 h-20 rounded-2xl flex items-center justify-center text-3xl font-bold shadow-xl transform hover:scale-110 transition-transform">
+                  2
+                </div>
+                <div className="absolute -top-2 -right-2 w-6 h-6 bg-brand-primary rounded-full animate-ping delay-150"></div>
+                <div className="absolute -top-2 -right-2 w-6 h-6 bg-brand-primary rounded-full"></div>
+              </div>
+              <h3 className="text-2xl font-bold mb-4 text-brand-dark">
+                Order Your Card
+              </h3>
+              <p className="text-gray-600 leading-relaxed">
+                Select from our premium card collection or design a custom card.
+                We'll deliver your NFC-enabled card directly to you, ready to
+                make an impact.
+              </p>
+            </div>
+
+            <div className="text-center relative">
+              <div className="relative inline-block mb-8">
+                <div className="bg-gradient-to-br from-brand-primary to-blue-600 text-white w-20 h-20 rounded-2xl flex items-center justify-center text-3xl font-bold shadow-xl transform hover:scale-110 transition-transform">
+                  3
+                </div>
+                <div className="absolute -top-2 -right-2 w-6 h-6 bg-brand-accent rounded-full animate-ping delay-300"></div>
+                <div className="absolute -top-2 -right-2 w-6 h-6 bg-brand-accent rounded-full"></div>
+              </div>
+              <h3 className="text-2xl font-bold mb-4 text-brand-dark">
+                Start Connecting
+              </h3>
+              <p className="text-gray-600 leading-relaxed">
+                Tap your card on any smartphone to instantly share your profile.
+                Monitor engagement, update information anytime, and never worry
+                about running out.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Mission & Vision Section */}
+      <section className="py-24 px-4 bg-white">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-8">
+            <div className="group relative overflow-hidden bg-brand-gradient to-blue-700 text-white p-12 rounded-3xl shadow-2xl hover:shadow-3xl transition-all hover:-translate-y-1">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl group-hover:bg-white/10 transition-all"></div>
+              <div className="relative z-10">
+                <div className="bg-white/10 backdrop-blur-sm w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                  <Target className="w-8 h-8" />
+                </div>
+                <h2 className="text-4xl font-bold mb-6">Our Mission</h2>
+                <p className="text-lg leading-relaxed text-blue-50">
+                  To empower professionals and businesses worldwide with
+                  innovative networking solutions that are sustainable,
+                  efficient, and memorable. We believe in creating connections
+                  that matter while reducing environmental impact and embracing
+                  the digital future.
+                </p>
+              </div>
+            </div>
+
+            <div className="group relative overflow-hidden bg-gradient-to-br from-brand-accent via-red-500 to-red-600 text-white p-12 rounded-3xl shadow-2xl hover:shadow-3xl transition-all hover:-translate-y-1">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl group-hover:bg-white/10 transition-all"></div>
+              <div className="relative z-10">
+                <div className="bg-white/10 backdrop-blur-sm w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                  <TrendingUp className="w-8 h-8" />
+                </div>
+                <h2 className="text-4xl font-bold mb-6">Our Vision</h2>
+                <p className="text-lg leading-relaxed text-red-50">
+                  A world where every professional interaction is seamless,
+                  sustainable, and smart. We're building the future of
+                  networking—one tap at a time—where physical elegance meets
+                  digital innovation to create lasting impressions and
+                  meaningful relationships.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Values Section */}
+      <section className="py-24 px-4 bg-gradient-to-b from-brand-light to-white">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-20">
+            <span className="text-brand-primary font-semibold text-sm uppercase tracking-wider bg-blue-50 px-4 py-2 rounded-full inline-block mb-4">
+              Core Principles
+            </span>
+            <h2 className="text-5xl font-bold text-brand-dark mb-6">
+              Our <span className="text-brand-primary">Values</span>
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              The principles that guide everything we do
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="group bg-white p-8 rounded-2xl text-center hover:shadow-2xl transition-all border-2 border-transparent hover:border-brand-primary hover:-translate-y-2">
+              <div className="text-6xl mb-6 transform group-hover:scale-110 transition-transform">
+                🚀
+              </div>
+              <h3 className="text-2xl font-bold mb-4 text-brand-dark">
+                Innovation
+              </h3>
+              <p className="text-gray-600 leading-relaxed">
+                Constantly pushing boundaries to deliver cutting-edge networking
+                solutions that set new industry standards.
+              </p>
+            </div>
+
+            <div className="group bg-white p-8 rounded-2xl text-center hover:shadow-2xl transition-all border-2 border-transparent hover:border-brand-primary hover:-translate-y-2">
+              <div className="text-6xl mb-6 transform group-hover:scale-110 transition-transform">
+                🌱
+              </div>
+              <h3 className="text-2xl font-bold mb-4 text-brand-dark">
+                Sustainability
+              </h3>
+              <p className="text-gray-600 leading-relaxed">
+                Committed to reducing waste and promoting eco-friendly
+                alternatives for a better tomorrow.
+              </p>
+            </div>
+
+            <div className="group bg-white p-8 rounded-2xl text-center hover:shadow-2xl transition-all border-2 border-transparent hover:border-brand-primary hover:-translate-y-2">
+              <div className="text-6xl mb-6 transform group-hover:scale-110 transition-transform">
+                🤝
+              </div>
+              <h3 className="text-2xl font-bold mb-4 text-brand-dark">
+                Connection
+              </h3>
+              <p className="text-gray-600 leading-relaxed">
+                Building meaningful relationships between people and businesses
+                that stand the test of time.
+              </p>
+            </div>
+
+            <div className="group bg-white p-8 rounded-2xl text-center hover:shadow-2xl transition-all border-2 border-transparent hover:border-brand-primary hover:-translate-y-2">
+              <div className="text-6xl mb-6 transform group-hover:scale-110 transition-transform">
+                ✨
+              </div>
+              <h3 className="text-2xl font-bold mb-4 text-brand-dark">
+                Excellence
+              </h3>
+              <p className="text-gray-600 leading-relaxed">
+                Delivering premium quality in every card and every interaction,
+                without compromise.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* CTA Section */}
-      <div className="bg-blue-600">
-        <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-between">
-          <h2 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
-            <span className="block">Ready to experience better reviews?</span>
-            <span className="block text-blue-200">
-              Join our community today.
+      <section className="relative py-24 px-4 bg-brand-gradient to-brand-dark text-white overflow-hidden">
+        {/* Animated Background */}
+        <div className="absolute inset-0">
+          <div className="absolute w-96 h-96 bg-white/5 rounded-full blur-3xl top-0 left-0 animate-pulse"></div>
+          <div className="absolute w-96 h-96 bg-brand-accent/10 rounded-full blur-3xl bottom-0 right-0 animate-pulse delay-700"></div>
+        </div>
+
+        <div className="max-w-4xl mx-auto text-center relative z-10">
+          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full mb-8 border border-white/20">
+            <Sparkles className="w-4 h-4" />
+            <span className="text-sm font-medium">Join the Revolution</span>
+          </div>
+          <h2 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+            Ready to Transform
+            <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-200 to-white">
+              Your Networking?
             </span>
           </h2>
-          <div className="mt-8 flex lg:mt-0 lg:flex-shrink-0">
-            <div className="inline-flex rounded-md shadow">
-              <Link
-                to="/signup"
-                className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-blue-600 bg-white hover:bg-blue-50"
-              >
-                Sign Up
-              </Link>
+          <p className="text-xl mb-10 text-gray-100 max-w-2xl mx-auto leading-relaxed">
+            Join thousands of professionals who have already made the switch to
+            smart NFC cards. Start building better connections today.
+          </p>
+          <div className="flex flex-wrap justify-center gap-4">
+            <button className="group bg-brand-accent hover:bg-red-600 text-white px-10 py-5 rounded-xl font-bold text-lg transition-all transform hover:scale-105 shadow-2xl flex items-center gap-2">
+              Get Started Today
+              <ArrowRight
+                size={22}
+                className="group-hover:translate-x-1 transition-transform"
+              />
+            </button>
+            <button className="bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white px-10 py-5 rounded-xl font-bold text-lg transition-all border-2 border-white/20 hover:border-white/40">
+              Contact Sales
+            </button>
+          </div>
+
+          <div className="mt-12 flex flex-wrap justify-center items-center gap-8 text-sm">
+            <div className="flex items-center gap-2">
+              <CheckCircle size={18} className="text-green-400" />
+              <span>No credit card required</span>
             </div>
-            <div className="ml-3 inline-flex rounded-md shadow">
-              <Link
-                to="/"
-                className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-800 hover:bg-blue-700"
-              >
-                Learn More
-              </Link>
+            <div className="flex items-center gap-2">
+              <CheckCircle size={18} className="text-green-400" />
+              <span>Free shipping worldwide</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <CheckCircle size={18} className="text-green-400" />
+              <span>30-day money-back guarantee</span>
             </div>
           </div>
         </div>
-      </div>
+      </section>
     </div>
   );
 };
 
-export default About;
+export default AboutUs;
