@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
-/* Components */
-import ProfileHeader from "../components/PublicProfile/ProfileHeader";
-import ProfileContent from "../components/PublicProfile/ProfileContent";
-import ActionButtons from "../components/PublicProfile/ActionButtons";
 import Modals from "../components/PublicProfile/Modals";
 import ProfileCardWrapper from "../components/PublicProfile/ProfileCardWrapper";
+import Swal from "sweetalert2";
 
 export default function PublicProfile() {
   const { slug } = useParams();
@@ -81,7 +78,14 @@ export default function PublicProfile() {
       }
     } else if (method === "copy") {
       navigator.clipboard.writeText(shareUrl);
-      alert("Link copied to clipboard!");
+      Swal.fire({
+        icon: "success",
+        title: "Link copied to clipboard!",
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 2000,
+      });
     } else if (method === "whatsapp") {
       window.open(
         `https://wa.me/?text=${encodeURIComponent(shareText + " " + shareUrl)}`
