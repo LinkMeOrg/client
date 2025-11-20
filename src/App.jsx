@@ -40,6 +40,7 @@ const AppContent = () => {
     "/forgot-password",
     "/reset-password",
     "/dashboard",
+    "/u/",
   ];
 
   const shouldHideNavbarFooter = hideNavbarFooterPaths.some((path) =>

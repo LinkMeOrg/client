@@ -197,7 +197,8 @@ export default function CreateCard() {
           profileType === "personal" ? "Personal" : "Business"
         } profile created successfully! 🎉\nYour link: ${data.data.profileUrl}`
       );
-      navigate(`/u/${data.data.slug}`);
+      // navigate(`/u/${data.data.slug}`);
+      navigate(`/dashboard`);
     } catch (err) {
       console.error(err);
       alert("Something went wrong. Please try again.");

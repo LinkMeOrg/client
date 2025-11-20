@@ -75,7 +75,7 @@ const Navbar = () => {
         <div className="hidden lg:flex items-center gap-4">
           {token ? (
             <>
-              <Link to="/profile" className="btn-ghost-clean">
+              <Link to="/dashboard" className="btn-ghost-clean">
                 Profile
               </Link>
               <button onClick={handleLogout} className="btn-primary-clean">
@@ -161,7 +161,7 @@ const Navbar = () => {
                 <>
                   <Link
                     className="btn-ghost-clean text-center"
-                    to="/profile"
+                    to="/dashboard"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Profile
