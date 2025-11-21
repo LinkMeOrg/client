@@ -43,6 +43,7 @@ import ScrollToTopButton from "./layout/ScrollToTopButton";
 // Route Guards
 import ProtectedRoute from "./components/ProtectedRoute";
 import GuestRoute from "./components/GuestRoute";
+import NotFound from "./pages/NotFound";
 import Gellary from "./pages/Gellary";
 
 /* ---------- SCROLL TO TOP COMPONENT ---------- */
@@ -136,6 +137,7 @@ const AppContent = () => {
           <Route path="analytics" element={<Analytics />} />
           <Route path="settings" element={<Settings />} />
         </Route>
+        <Route path="*" element={<NotFound />} />
       </Routes>
       {!shouldHideNavbarFooter && <Footer />}
       <ScrollToTopButton />
