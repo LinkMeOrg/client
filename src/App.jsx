@@ -46,6 +46,9 @@ import GuestRoute from "./components/GuestRoute";
 import NotFound from "./pages/NotFound";
 import Gellary from "./pages/Gellary";
 
+// pricing
+import Pricing from "./pages/Pricing";
+
 /* ---------- SCROLL TO TOP COMPONENT ---------- */
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -95,7 +98,6 @@ const AppContent = () => {
             </GuestRoute>
           }
         />
-
         {/* ---------- PUBLIC ROUTES ---------- */}
         <Route path="/" element={<Home />} />
         <Route path="/contact" element={<Contact />} />
@@ -111,7 +113,7 @@ const AppContent = () => {
         <Route path="/not-found" element={<NotFound />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />
-
+        <Route path="/pricing" element={<Pricing />} />;
         {/* ---------- PROTECTED USER ROUTES ---------- */}
         <Route
           path="/profile"
@@ -121,7 +123,6 @@ const AppContent = () => {
             </ProtectedRoute>
           }
         />
-
         {/* ---------- PROTECTED DASHBOARD ---------- */}
         <Route
           path="/dashboard"
