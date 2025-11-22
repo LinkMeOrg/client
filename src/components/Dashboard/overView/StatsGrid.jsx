@@ -1,5 +1,5 @@
 import React from "react";
-import StatCard from "./Statcard";
+import StatCard from "./StatCard";
 
 export default function StatsGrid({ stats }) {
   return (
