@@ -1,5 +1,5 @@
 import React from "react";
-import { formatDate } from "./Dashboardutils";
+import { formatDate } from "./DashboardUtils";
 
 export default function RecentActivity({ activities }) {
   return (
