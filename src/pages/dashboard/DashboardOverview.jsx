@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import DashboardHeader from "../../components/Dashboard/overview/DashboardHeader";
+import DashboardHeader from "../../components/Dashboard/overView/DashboardHeader";
 import StatsGrid from "../../components/Dashboard/overView/StatsGrid";
 import ProfilesSection from "../../components/Dashboard/overview/Profilessection";
 import RecentActivity from "../../components/Dashboard/overview/Recentactivity";
