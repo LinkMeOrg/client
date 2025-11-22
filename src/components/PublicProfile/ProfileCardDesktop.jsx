@@ -14,6 +14,7 @@ import {
   Building2,
 } from "lucide-react";
 import { getPlatformIcon } from "../../utils/platformIcons";
+import ShareModal from "../PublicProfile/Modals";
 
 export default function ProfileCardDesktop({
   profile,
@@ -37,7 +38,6 @@ export default function ProfileCardDesktop({
         link.platform !== "email" &&
         link.platform !== "whatsapp"
     ) || [];
-
 
   return (
     <div className="min-h-screen flex items-center justify-center p-8">
