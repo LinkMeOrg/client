@@ -7,7 +7,7 @@ import BasicInfoForm from "../../components/Dashboard/EditProfile/BasicInfoForm"
 import SocialLinksTab from "../../components/Dashboard/EditProfile/SocialLinksTab";
 import SettingsTab from "../../components/Dashboard/EditProfile/SettingsTab";
 import ProfileSidebar from "../../components/Dashboard/EditProfile/ProfileSidebar";
-import LoadingSpinner from "../../components/Dashboard/EditProfile/LoadingSpinner";
+import LoadingSpinner from "../../components/Dashboard/overView/LoadingSpinner";
 import AddSocialLinkModal from "../../components/AddSocialLinkModal";
 import { X } from "lucide-react";
 
@@ -30,12 +30,9 @@ export default function EditProfile() {
   const fetchProfile = async () => {
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch(
-        `${API_URL}/api/profiles/${id}`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+      const response = await fetch(`${API_URL}/api/profiles/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
       const data = await response.json();
       setProfile(data.data);
@@ -81,14 +78,11 @@ export default function EditProfile() {
         formData.append("avatar", profile.avatarFile);
       }
 
-      const response = await fetch(
-        `${API_URL}/api/profiles/${id}`,
-        {
-          method: "PUT",
-          headers: { Authorization: `Bearer ${token}` },
-          body: formData,
-        }
-      );
+      const response = await fetch(`${API_URL}/api/profiles/${id}`, {
+        method: "PUT",
+        headers: { Authorization: `Bearer ${token}` },
+        body: formData,
+      });
 
       const data = await response.json();
 
@@ -131,25 +125,47 @@ export default function EditProfile() {
     const url = URL.createObjectURL(file);
     setProfile({ ...profile, avatarUrl: url, avatarFile: file });
   };
+  const buildFinalLink = (platform, value) => {
+    const username = value.trim();
+
+    if (username.startsWith("http://") || username.startsWith("https://")) {
+      return username;
+    }
+
+    switch (platform) {
+      case "instagram":
+        return `https://instagram.com/${username}`;
+      case "linkedin":
+        return `https://linkedin.com/in/${username}`;
+      case "twitter":
+        return `https://twitter.com/${username}`;
+      case "github":
+        return `https://github.com/${username}`;
+      case "website":
+        return `https://${username}`;
+      default:
+        return username;
+    }
+  };
 
   const handleAddSocialLink = async (platform, url) => {
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch(
-        `${API_URL}/api/social-links`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            profileId: id,
-            platform,
-            url,
-          }),
-        }
-      );
+
+      const finalUrl = buildFinalLink(platform, url);
+
+      const response = await fetch(`${API_URL}/api/social-links`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          profileId: id,
+          platform,
+          url: finalUrl,
+        }),
+      });
 
       if (response.ok) {
         fetchSocialLinks();
@@ -175,13 +191,10 @@ export default function EditProfile() {
 
     try {
       const token = localStorage.getItem("token");
-      await fetch(
-        `${API_URL}/api/social-links/${linkId}`,
-        {
-          method: "DELETE",
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+      await fetch(`${API_URL}/api/social-links/${linkId}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
       setSocialLinks(socialLinks.filter((link) => link.id !== linkId));
 

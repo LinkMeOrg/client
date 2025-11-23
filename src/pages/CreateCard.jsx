@@ -110,10 +110,36 @@ async function createProfile(profileData, token) {
   if (profileData.avatarFile) {
     formData.append("avatar", profileData.avatarFile);
   }
+  const buildFinalLink = (platform, value) => {
+    const username = value.trim();
+
+    // If user entered a full link
+    if (username.startsWith("http://") || username.startsWith("https://")) {
+      return username;
+    }
+
+    switch (platform) {
+      case "instagram":
+        return `https://instagram.com/${username}`;
+      case "linkedin":
+        return `https://linkedin.com/in/${username}`;
+      case "twitter":
+        return `https://twitter.com/${username}`;
+      case "github":
+        return `https://github.com/${username}`;
+      case "website":
+        return `https://${username}`;
+      default:
+        return username;
+    }
+  };
 
   const socialLinksArray = Object.entries(profileData.socialLinks)
     .filter(([_, value]) => value && value.trim())
-    .map(([platform, url]) => ({ platform, url }));
+    .map(([platform, url]) => ({
+      platform,
+      url: buildFinalLink(platform, url),
+    }));
 
   formData.append("socialLinks", JSON.stringify(socialLinksArray));
   const API_URL = import.meta.env.VITE_API_URL; // For Vite

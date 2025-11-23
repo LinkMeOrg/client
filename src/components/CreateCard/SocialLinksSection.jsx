@@ -150,31 +150,41 @@ export default function SocialLinksSection({
                 type="text"
                 value={socialLinks[platform.key] || ""}
                 onChange={(e) => {
-                  const value = e.target.value;
+                  const rawValue = e.target.value;
+                  const value = rawValue.trim();
                   let isValid = true;
 
-                  if (shouldValidateUrl && value.trim().length > 0) {
-                    isValid = urlRegex.test(value.trim());
+                  if (value.length > 0) {
+                    if (value.toLowerCase().startsWith("http")) {
+                      // user entered full URL → validate as URL
+                      isValid = urlRegex.test(value);
+                    } else {
+                      // user entered username → simple validation
+                      isValid = value.length >= 2;
+                    }
                   }
 
-                  onSocialLinksChange(platform.key, value);
+                  // نحفظ القيمة زي ما هي (username أو URL)
+                  onSocialLinksChange(platform.key, rawValue);
 
                   setErrors((prev) => ({
                     ...prev,
                     [platform.key]: !isValid,
                   }));
                 }}
-                placeholder={platform.placeholder}
+                placeholder={
+                  platform.placeholder || "Enter username or full link"
+                }
                 className={`w-full rounded-lg px-3 py-2 text-xs focus:outline-none focus:ring-2 transition-all
-                  ${
-                    errors[platform.key]
-                      ? "border-2 border-red-500 focus:ring-red-400"
-                      : "border border-gray-200 focus:ring-brand-primary/40"
-                  }`}
+        ${
+          errors[platform.key]
+            ? "border-2 border-red-500 focus:ring-red-400"
+            : "border border-gray-200 focus:ring-brand-primary/40"
+        }`}
               />
               {errors[platform.key] && (
                 <p className="text-[11px] text-red-500 flex items-center gap-1">
-                  <span>⚠️</span> Please enter a valid URL (http or https)
+                  <span>⚠️</span> Please enter a valid username or URL{" "}
                 </p>
               )}
             </div>

@@ -7,7 +7,6 @@ export default function DashboardLayout() {
   const [userInfo, setUserInfo] = useState({ name: "", email: "" });
   const navigate = useNavigate();
   const location = useLocation();
-
   const API_URL = import.meta.env.VITE_API_URL; // For Vite
 
   const { logout } = useAuth();
@@ -113,7 +112,6 @@ export default function DashboardLayout() {
         </svg>
       ),
       label: "Analytics",
-      badge: "New",
     },
     {
       path: "/dashboard/settings",
@@ -147,13 +145,12 @@ export default function DashboardLayout() {
     <div className="h-screen bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden">
       {/* Mobile Header */}
       <div className="lg:hidden fixed top-0 left-0 right-0 bg-white/80 backdrop-blur-md border-b border-gray-200 z-40 px-4 py-3 flex items-center justify-between shadow-sm">
-        <Link to="/" className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-gradient-to-br from-brand-primary to-blue-600 rounded-lg flex items-center justify-center">
-            <span className="text-white font-bold text-sm">DL</span>
-          </div>
-          <span className="text-xl font-bold bg-gradient-to-r from-brand-primary to-blue-600 bg-clip-text text-transparent">
-            DotLinkMe
-          </span>
+        <Link
+          to="/"
+          className="text-[22px] font-extrabold tracking-tight flex items-center gap-1"
+        >
+          <span className="text-brand-accent">Dot</span>
+          <span className="text-brand-primary">LinkMe</span>
         </Link>
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -195,13 +192,11 @@ export default function DashboardLayout() {
             {/* Logo Section - Fixed */}
             <div className="flex-shrink-0 p-6 border-b border-gray-100">
               <Link to="/" className="flex items-center gap-3 group">
-                <div className="w-10 h-10 bg-gradient-to-br from-brand-primary to-blue-600 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow">
-                  <span className="text-white font-bold">DL</span>
-                </div>
                 <div>
-                  <h1 className="text-xl font-bold bg-gradient-to-r from-brand-primary to-blue-600 bg-clip-text text-transparent">
-                    DotLinkMe
-                  </h1>
+                  <div className="text-[22px] font-extrabold tracking-tight flex items-center gap-1">
+                    <span className="text-brand-accent">Dot</span>
+                    <span className="text-brand-primary">LinkMe</span>
+                  </div>
                   <p className="text-xs text-gray-500">Smart NFC Platform</p>
                 </div>
               </Link>
@@ -264,7 +259,7 @@ export default function DashboardLayout() {
             <div className="flex-shrink-0 p-4 border-t border-gray-100 space-y-2">
               <Link
                 to="/create-card"
-                className="flex items-center gap-3 px-4 py-3 rounded-xl bg-gradient-to-r from-green-500 to-emerald-600 text-white hover:shadow-lg transition-all group"
+                className="flex items-center gap-3 px-4 py-3 rounded-xl btn-accent text-white hover:shadow-lg transition-all group"
               >
                 <svg
                   className="w-5 h-5 group-hover:rotate-90 transition-transform"

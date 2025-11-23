@@ -144,9 +144,6 @@ export default function BasicInfoForm({
               className="h-14 w-14 rounded-xl border-2 border-gray-300 cursor-pointer"
             />
             <div>
-              <p className="text-sm font-medium text-gray-700">
-                {profile.color}
-              </p>
               <p className="text-xs text-gray-500">
                 This color will be used for your profile theme
               </p>
@@ -184,7 +181,7 @@ export default function BasicInfoForm({
         <button
           type="submit"
           disabled={saving}
-          className="btn-primary-clean w-full py-4 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-lg font-semibold"
+          className="btn-accent w-full py-4 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-lg font-semibold"
         >
           {saving ? (
             <>

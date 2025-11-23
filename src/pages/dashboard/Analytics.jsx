@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
+import { Download, Search, Mail, Phone, MapPin, Monitor } from "lucide-react";
 
 export default function Analytics() {
   const [loading, setLoading] = useState(true);
   const [profiles, setProfiles] = useState([]);
   const [selectedProfile, setSelectedProfile] = useState(null);
   const [analytics, setAnalytics] = useState(null);
+  const [visitors, setVisitors] = useState([]);
+  const [visitorStats, setVisitorStats] = useState(null);
   const [days, setDays] = useState(30);
+  const [searchTerm, setSearchTerm] = useState("");
   const API_URL = import.meta.env.VITE_API_URL; // For Vite
 
   useEffect(() => {
@@ -15,18 +19,17 @@ export default function Analytics() {
   useEffect(() => {
     if (selectedProfile) {
       fetchAnalytics(selectedProfile, days);
+      fetchVisitors(selectedProfile);
+      fetchVisitorStats(selectedProfile);
     }
   }, [selectedProfile, days]);
 
   const fetchProfiles = async () => {
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch(
-        `${API_URL}/api/profiles`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+      const response = await fetch(`${API_URL}/api/profiles`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
       const data = await response.json();
       setProfiles(data.data || []);
@@ -57,6 +60,86 @@ export default function Analytics() {
     }
   };
 
+  const fetchVisitors = async (profileId) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch(
+        `${API_URL}/api/profiles/${profileId}/visitors`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      const data = await response.json();
+      if (data.success) {
+        setVisitors(data.data.visitors || []);
+      }
+    } catch (error) {
+      console.error("Error fetching visitors:", error);
+    }
+  };
+
+  const fetchVisitorStats = async (profileId) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch(
+        `${API_URL}/api/profiles/${profileId}/visitors/stats`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      const data = await response.json();
+      if (data.success) {
+        setVisitorStats(data.data);
+      }
+    } catch (error) {
+      console.error("Error fetching visitor stats:", error);
+    }
+  };
+
+  const filteredVisitors = visitors.filter(
+    (visitor) =>
+      visitor.visitorEmail?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      visitor.visitorPhone?.includes(searchTerm) ||
+      visitor.visitorCountry?.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const exportToCSV = () => {
+    const headers = [
+      "Email",
+      "Phone",
+      "Country",
+      "City",
+      "Device",
+      "Browser",
+      "Source",
+      "Date",
+    ];
+    const csvData = filteredVisitors.map((visitor) => [
+      visitor.visitorEmail,
+      visitor.visitorPhone,
+      visitor.visitorCountry || "Unknown",
+      visitor.visitorCity || "Unknown",
+      visitor.device || "Unknown",
+      visitor.browser || "Unknown",
+      visitor.viewSource,
+      new Date(visitor.submittedAt).toLocaleString(),
+    ]);
+
+    const csv = [
+      headers.join(","),
+      ...csvData.map((row) => row.map((cell) => `"${cell}"`).join(",")),
+    ].join("\n");
+
+    const blob = new Blob([csv], { type: "text/csv" });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `visitor-contacts-${new Date().toISOString()}.csv`;
+    a.click();
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
@@ -79,13 +162,15 @@ export default function Analytics() {
     );
   }
 
-  const currentProfile = profiles.find((p) => p.id === selectedProfile);
-
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-brand-dark">Analytics</h1>
-        <p className="text-gray-600 mt-1">Track your profile performance</p>
+        <h1 className="text-4xl font-bold bg-gradient-to-r from-brand-primary to-blue-600 bg-clip-text text-transparent">
+          Analytics
+        </h1>
+        <p className="text-gray-600 mt-2 text-lg">
+          Track your profile performance
+        </p>
       </div>
 
       <div className="card-glass p-6">
@@ -175,12 +260,12 @@ export default function Analytics() {
             <div className="card-glass p-6">
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 rounded-xl bg-orange-100 flex items-center justify-center text-2xl">
-                  🌍
+                  📧
                 </div>
                 <div>
-                  <p className="text-sm text-gray-600">Countries</p>
+                  <p className="text-sm text-gray-600">Visitor Contacts</p>
                   <p className="text-2xl font-bold text-brand-dark">
-                    {analytics.analytics?.viewsByCountry?.length || 0}
+                    {visitorStats?.totalVisitors || 0}
                   </p>
                 </div>
               </div>
@@ -301,36 +386,150 @@ export default function Analytics() {
             )}
           </div>
 
+          {/* VISITOR CONTACTS SECTION - REPLACES RECENT VIEWS */}
           <div className="card-glass p-6">
-            <h2 className="text-xl font-bold text-brand-dark mb-4">
-              Recent Views
-            </h2>
-            {analytics.analytics?.recentViews?.length > 0 ? (
-              <div className="space-y-2">
-                {analytics.analytics.recentViews.map((view, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center justify-between p-3 bg-gray-50 rounded-lg text-sm"
-                  >
-                    <div className="flex items-center gap-3">
-                      <span>
-                        {view.device || "Unknown"} • {view.viewSource}
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-3 text-gray-600">
-                      <span>
-                        {view.viewerCity || "Unknown"},{" "}
-                        {view.viewerCountry || "Unknown"}
-                      </span>
-                      <span>
-                        {new Date(view.viewedAt).toLocaleDateString()}
-                      </span>
-                    </div>
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-xl font-bold text-brand-dark">
+                Visitor Contacts
+              </h2>
+              {visitors.length > 0 && (
+                <button
+                  onClick={exportToCSV}
+                  className="flex items-center gap-2 px-4 py-2 bg-brand-primary text-white rounded-lg hover:bg-brand-primary/90 transition-colors"
+                >
+                  <Download className="w-4 h-4" />
+                  Export CSV
+                </button>
+              )}
+            </div>
+
+            {visitors.length > 0 ? (
+              <>
+                <div className="mb-4">
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                    <input
+                      type="text"
+                      placeholder="Search by email, phone, or country..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary/40"
+                    />
                   </div>
-                ))}
-              </div>
+                </div>
+
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead>
+                      <tr className="border-b border-gray-200">
+                        <th className="text-left py-3 px-4 text-sm font-semibold text-gray-700">
+                          Contact Info
+                        </th>
+                        <th className="text-left py-3 px-4 text-sm font-semibold text-gray-700">
+                          Location
+                        </th>
+                        <th className="text-left py-3 px-4 text-sm font-semibold text-gray-700">
+                          Device
+                        </th>
+                        <th className="text-left py-3 px-4 text-sm font-semibold text-gray-700">
+                          Source
+                        </th>
+                        <th className="text-left py-3 px-4 text-sm font-semibold text-gray-700">
+                          Date
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {filteredVisitors.map((visitor) => (
+                        <tr
+                          key={visitor.id}
+                          className="border-b border-gray-100 hover:bg-gray-50"
+                        >
+                          <td className="py-4 px-4">
+                            <div className="space-y-1">
+                              <div className="flex items-center gap-2 text-sm">
+                                <Mail className="w-4 h-4 text-gray-400" />
+                                <a
+                                  href={`mailto:${visitor.visitorEmail}`}
+                                  className="text-brand-primary hover:underline"
+                                >
+                                  {visitor.visitorEmail}
+                                </a>
+                              </div>
+                              <div className="flex items-center gap-2 text-sm text-gray-600">
+                                <Phone className="w-4 h-4 text-gray-400" />
+                                <a
+                                  href={`tel:${visitor.visitorPhone}`}
+                                  className="hover:text-brand-primary"
+                                >
+                                  {visitor.visitorPhone}
+                                </a>
+                              </div>
+                            </div>
+                          </td>
+                          <td className="py-4 px-4">
+                            <div className="flex items-center gap-2 text-sm text-gray-600">
+                              <MapPin className="w-4 h-4 text-gray-400" />
+                              <span>
+                                {visitor.visitorCity || "Unknown"},{" "}
+                                {visitor.visitorCountry || "Unknown"}
+                              </span>
+                            </div>
+                          </td>
+                          <td className="py-4 px-4">
+                            <div className="flex items-center gap-2 text-sm text-gray-600">
+                              <Monitor className="w-4 h-4 text-gray-400" />
+                              <div>
+                                <div>{visitor.device || "Unknown"}</div>
+                                <div className="text-xs text-gray-500">
+                                  {visitor.browser || "Unknown"}
+                                </div>
+                              </div>
+                            </div>
+                          </td>
+                          <td className="py-4 px-4">
+                            <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 capitalize">
+                              {visitor.viewSource === "nfc"
+                                ? "📲 NFC"
+                                : visitor.viewSource === "qr"
+                                ? "📷 QR"
+                                : visitor.viewSource === "link"
+                                ? "🔗 Link"
+                                : "🌐 Direct"}
+                            </span>
+                          </td>
+                          <td className="py-4 px-4 text-sm text-gray-600">
+                            {new Date(visitor.submittedAt).toLocaleDateString()}
+                            <br />
+                            <span className="text-xs text-gray-500">
+                              {new Date(
+                                visitor.submittedAt
+                              ).toLocaleTimeString()}
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+
+                {filteredVisitors.length === 0 && (
+                  <p className="text-gray-600 text-center py-8">
+                    No visitors match your search
+                  </p>
+                )}
+              </>
             ) : (
-              <p className="text-gray-600 text-center py-8">No views yet</p>
+              <div className="text-center py-12">
+                <div className="text-6xl mb-4">📧</div>
+                <h3 className="text-lg font-semibold text-gray-700 mb-2">
+                  No visitor contacts yet
+                </h3>
+                <p className="text-gray-600">
+                  When people tap your NFC card and share their contact info,
+                  they'll appear here
+                </p>
+              </div>
             )}
           </div>
         </>

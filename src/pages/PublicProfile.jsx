@@ -6,6 +6,7 @@ import ProfileCardMobile from "../components/PublicProfile/ProfileCardMobile";
 import ShareModal from "../components/PublicProfile/Modals";
 import QRModal from "../components/PublicProfile/QRModal";
 import NotFound from "./NotFound";
+import VisitorContactModal from "../components/PublicProfile/VisitorContactModal";
 import { Loader2, AlertTriangle } from "lucide-react";
 
 export default function PublicProfile() {
@@ -16,7 +17,8 @@ export default function PublicProfile() {
   const [error, setError] = useState(null);
   const [showShareModal, setShowShareModal] = useState(false);
   const [showQRModal, setShowQRModal] = useState(false);
-  const API_URL = import.meta.env.VITE_API_URL; // For Vite
+  const [showVisitorModal, setShowVisitorModal] = useState(false);
+  const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     fetchProfile();
@@ -33,6 +35,9 @@ export default function PublicProfile() {
       const data = await response.json();
       setProfile(data.data);
       await trackView();
+      setTimeout(() => {
+        setShowVisitorModal(true);
+      }, 2000);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -232,6 +237,13 @@ END:VCARD`;
         onClose={() => setShowQRModal(false)}
         profile={profile}
         onDownload={handleDownloadQR}
+      />
+
+      <VisitorContactModal
+        isOpen={showVisitorModal}
+        onClose={() => setShowVisitorModal(false)}
+        profileSlug={profile.slug}
+        source="nfc"
       />
     </div>
   );

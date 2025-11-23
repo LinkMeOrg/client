@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, X } from "lucide-react";
 import SocialAuthButtons from "../components/SocialAuthButtons";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import TermsModal from "../components/TermsModal";
 import Swal from "sweetalert2";
 
 const SignUp = () => {
@@ -65,10 +66,31 @@ const SignUp = () => {
   const [error, setError] = useState(null);
   const [passwordStrength, setPasswordStrength] = useState("");
   const [agree, setAgree] = useState(false);
+  const [showTermsModal, setShowTermsModal] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation(); // ✅ NEW: Get location state
+  const location = useLocation();
   const API_URL = import.meta.env.VITE_API_URL; // For Vite
+
+  useEffect(() => {
+    const savedData = localStorage.getItem("signupFormData");
+    if (savedData) {
+      try {
+        const parsed = JSON.parse(savedData);
+        setFormData(parsed);
+        if (parsed.password) {
+          setPasswordStrength(checkPasswordStrength(parsed.password));
+        }
+      } catch (error) {
+        console.error("Error loading saved form data:", error);
+      }
+    }
+  }, []);
+
+  // ✅ NEW: Save form data whenever it changes
+  useEffect(() => {
+    localStorage.setItem("signupFormData", JSON.stringify(formData));
+  }, [formData]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -140,13 +162,10 @@ const SignUp = () => {
         password: formData.password,
       };
 
-      const response = await axios.post(
-        `${API_URL}/auth/signup`,
-        payload
-      );
+      const response = await axios.post(`${API_URL}/auth/signup`, payload);
 
       if (response.status === 201) {
-        // OTP required
+        localStorage.removeItem("signupFormData");
         if (response.data.message?.includes("OTP")) {
           await Swal.fire({
             icon: "info",
@@ -157,22 +176,15 @@ const SignUp = () => {
           navigate("/verify-otp", {
             state: {
               email: formData.email,
-              returnTo: location.state?.returnTo, // ✅ NEW: Pass returnTo through OTP
+              returnTo: location.state?.returnTo,
             },
           });
         }
         // Direct login
         else if (response.data.token) {
           login(response.data.token, response.data.user);
-
-          // ✅ NEW: Check if there's a returnTo path
           const returnTo = location.state?.returnTo;
-
-          if (returnTo) {
-            navigate(returnTo);
-          } else {
-            navigate("/");
-          }
+          navigate(returnTo || "/");
         }
       }
     } catch (error) {
@@ -289,23 +301,7 @@ const SignUp = () => {
               <div className="flex gap-2">
                 {/* Country Code Selector */}
                 <select
-                  className="
-    w-40 
-    border border-gray-300 
-    rounded-2xl 
-    px-4 py-2 
-    text-sm 
-    bg-white 
-    shadow-sm 
-    hover:border-gray-400 
-    focus:outline-none 
-    focus:ring-2 
-    focus:ring-brand-primary/50 
-    focus:border-brand-primary
-    transition
-    duration-200
-    ease-in-out
-  "
+                  className="w-40 border border-gray-300 rounded-2xl px-4 py-2 text-sm bg-white shadow-sm hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-primary/50 focus:border-brand-primary transition duration-200 ease-in-out"
                   onChange={handleCountryCodeChange}
                 >
                   <option value="">Select Country</option>
@@ -437,12 +433,13 @@ const SignUp = () => {
               />
               <p className="text-xs text-gray-600">
                 I agree to the{" "}
-                <Link
-                  to="/terms"
-                  className="text-brand-primary underline cursor-pointer"
+                <button
+                  type="button"
+                  onClick={() => setShowTermsModal(true)} // ✅ CORRECT - opens modal
+                  className="text-brand-primary underline cursor-pointer hover:text-brand-primary/80"
                 >
                   Terms & Conditions
-                </Link>
+                </button>
               </p>
             </div>
 
@@ -507,6 +504,10 @@ const SignUp = () => {
           </div>
         </div>
       </section>
+      <TermsModal
+        isOpen={showTermsModal}
+        onClose={() => setShowTermsModal(false)}
+      />
     </div>
   );
 };

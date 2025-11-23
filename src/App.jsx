@@ -23,8 +23,7 @@ import Contact from "./pages/Contact";
 import About from "./pages/About";
 import OAuthSuccessWrapper from "./components/OAuthSuccessWrapper";
 import OTPVerify from "./pages/OTPVerify";
-import Terms from "./pages/Terms";
-import CreateCard from "./pages/CreateCard";
+import TermsModal from "./components/TermsModal";import CreateCard from "./pages/CreateCard";
 import PublicProfile from "./pages/PublicProfile";
 import HowItWorks from "./pages/HowItWorks";
 import VerifyAccount from "./pages/VerifyAccount";
@@ -102,7 +101,6 @@ const AppContent = () => {
         <Route path="/" element={<Home />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/about" element={<About />} />
-        <Route path="/terms" element={<Terms />} />
         <Route path="/how-it-works" element={<HowItWorks />} />
         <Route path="/oauth-success" element={<OAuthSuccessWrapper />} />
         <Route path="/verify-otp" element={<OTPVerify />} />

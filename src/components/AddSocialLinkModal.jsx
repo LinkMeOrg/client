@@ -99,23 +99,6 @@ export default function AddSocialLinkModal({
       }
     }
 
-    // Other URL validation
-    if (
-      ["website", "linkedin", "instagram", "twitter", "github"].includes(
-        platform
-      )
-    ) {
-      if (!/^https?:\/\//i.test(trimmedUrl)) {
-        Swal.fire({
-          title: "Invalid URL",
-          text: "URL must start with http:// or https://",
-          icon: "warning",
-          confirmButtonText: "OK",
-        });
-        return;
-      }
-    }
-
     // Phone number
     if (platform === "phone") {
       trimmedUrl = `${countryCode}${trimmedUrl.replace(/\D/g, "")}`;
