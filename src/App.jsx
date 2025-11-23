@@ -1,154 +1,159 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
-import { jwtDecode } from "jwt-decode";
+import React, { useEffect } from "react";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  useLocation,
+} from "react-router-dom";
 
-const AuthContext = createContext();
+import { AuthProvider } from "./context/AuthContext";
 
-export const AuthProvider = ({ children }) => {
-  const tokenFromStorage = localStorage.getItem("token");
-  const refreshTokenFromStorage = localStorage.getItem("refreshToken");
-  const userFromStorage = localStorage.getItem("user");
+// Layout
+import Navbar from "./layout/Navbar";
+import Footer from "./layout/Footer";
 
-  let parsedUser = null;
-  try {
-    parsedUser = userFromStorage ? JSON.parse(userFromStorage) : null;
-  } catch (err) {
-    console.error("Error parsing user from localStorage:", err);
-    parsedUser = null;
-    localStorage.removeItem("user");
-  }
+// Pages
+import Login from "./pages/Login";
+import SignUp from "./pages/SignUp";
+import Home from "./pages/Home";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
+import Profile from "./pages/Profile";
+import Contact from "./pages/Contact";
+import About from "./pages/About";
+import OAuthSuccessWrapper from "./components/OAuthSuccessWrapper";
+import OTPVerify from "./pages/OTPVerify";
+import Terms from "./pages/Terms";
+import CreateCard from "./pages/CreateCard";
+import PublicProfile from "./pages/PublicProfile";
+import HowItWorks from "./pages/HowItWorks";
+import VerifyAccount from "./pages/VerifyAccount";
 
-  const [token, setToken] = useState(tokenFromStorage);
-  const [refreshToken, setRefreshToken] = useState(refreshTokenFromStorage);
-  const [user, setUser] = useState(parsedUser);
-  const [isRefreshing, setIsRefreshing] = useState(false);
+// Dashboard
+import DashboardLayout from "./layout/DashboardLayout";
+import DashboardOverview from "./pages/dashboard/DashboardOverview";
+import MyProfiles from "./pages/dashboard/MyProfiles";
+import EditProfile from "./pages/dashboard/EditProfile";
+import Analytics from "./pages/dashboard/Analytics";
+import Settings from "./pages/dashboard/Settings";
 
-  // Check if token is expired
-  const isTokenExpired = (token) => {
-    if (!token) return true;
-    try {
-      const decoded = jwtDecode(token);
-      const currentTime = Date.now() / 1000;
-      return decoded.exp < currentTime;
-    } catch (error) {
-      console.error("Error decoding token:", error);
-      return true;
-    }
-  };
+// Helpers
+import ScrollToTopButton from "./layout/ScrollToTopButton";
 
-  // Refresh access token
-  const refreshAccessToken = async () => {
-    if (isRefreshing) return null;
+// Route Guards
+import ProtectedRoute from "./components/ProtectedRoute";
+import GuestRoute from "./components/GuestRoute";
+import NotFound from "./pages/NotFound";
+import Gellary from "./pages/Gellary";
 
-    setIsRefreshing(true);
+// pricing
+import Pricing from "./pages/Pricing";
 
-    try {
-      const response = await fetch(
-        "https://linkme-api.onrender.com/api/auth/refresh-token",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ refreshToken }),
-        }
-      );
+/* ---------- SCROLL TO TOP COMPONENT ---------- */
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
 
-      if (response.ok) {
-        const data = await response.json();
-
-        // Update tokens
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("refreshToken", data.refreshToken);
-        setToken(data.token);
-        setRefreshToken(data.refreshToken);
-
-        setIsRefreshing(false);
-        return data.token;
-      } else {
-        // Refresh token expired or invalid, logout user
-        logout();
-        setIsRefreshing(false);
-        return null;
-      }
-    } catch (error) {
-      console.error("Error refreshing token:", error);
-      logout();
-      setIsRefreshing(false);
-      return null;
-    }
-  };
-
-  // Auto-refresh token when it's about to expire
   useEffect(() => {
-    if (!token || !refreshToken) return;
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [pathname]);
 
-    const checkTokenExpiry = () => {
-      if (isTokenExpired(token)) {
-        refreshAccessToken();
-      }
-    };
+  return null;
+};
 
-    // Check immediately
-    checkTokenExpiry();
+const AppContent = () => {
+  const location = useLocation();
 
-    // Check every 5 minutes
-    const interval = setInterval(checkTokenExpiry, 5 * 60 * 1000);
+  const hideNavbarFooterPaths = [
+    "/login",
+    "/signup",
+    "/forgot-password",
+    "/reset-password",
+    "/dashboard",
+    "/u/",
+  ];
 
-    return () => clearInterval(interval);
-  }, [token, refreshToken]);
-
-  const login = (token, refreshToken, userData) => {
-    localStorage.setItem("token", token);
-    localStorage.setItem("refreshToken", refreshToken);
-    localStorage.setItem("user", JSON.stringify(userData));
-    setToken(token);
-    setRefreshToken(refreshToken);
-    setUser(userData);
-  };
-
-  const logout = async () => {
-    // Call logout API to invalidate refresh token
-    if (user?.id) {
-      try {
-        await fetch("https://linkme-api.onrender.com/api/auth/logout", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ userId: user.id }),
-        });
-      } catch (error) {
-        console.error("Error during logout:", error);
-      }
-    }
-
-    // Clear local storage and state
-    localStorage.removeItem("token");
-    localStorage.removeItem("refreshToken");
-    localStorage.removeItem("user");
-    setToken(null);
-    setRefreshToken(null);
-    setUser(null);
-  };
-
-  const isAuthenticated = () => !!token && !isTokenExpired(token);
+  const shouldHideNavbarFooter = hideNavbarFooterPaths.some((path) =>
+    location.pathname.startsWith(path)
+  );
 
   return (
-    <AuthContext.Provider
-      value={{
-        token,
-        refreshToken,
-        user,
-        login,
-        logout,
-        isAuthenticated,
-        refreshAccessToken,
-        isRefreshing,
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
+    <>
+      <ScrollToTop /> {/* <-- Added ScrollToTop */}
+      {!shouldHideNavbarFooter && <Navbar />}
+      <Routes>
+        {/* ---------- GUEST ONLY ---------- */}
+        <Route
+          path="/login"
+          element={
+            <GuestRoute>
+              <Login />
+            </GuestRoute>
+          }
+        />
+        <Route
+          path="/signup"
+          element={
+            <GuestRoute>
+              <SignUp />
+            </GuestRoute>
+          }
+        />
+        {/* ---------- PUBLIC ROUTES ---------- */}
+        <Route path="/" element={<Home />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/terms" element={<Terms />} />
+        <Route path="/how-it-works" element={<HowItWorks />} />
+        <Route path="/oauth-success" element={<OAuthSuccessWrapper />} />
+        <Route path="/verify-otp" element={<OTPVerify />} />
+        <Route path="/verify-account" element={<VerifyAccount />} />
+        <Route path="/u/:slug" element={<PublicProfile />} />
+        <Route path="/create-card" element={<CreateCard />} />
+        <Route path="/gallery" element={<Gellary />} />
+        <Route path="/not-found" element={<NotFound />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password/:token" element={<ResetPassword />} />
+        <Route path="/pricing" element={<Pricing />} />;
+        {/* ---------- PROTECTED USER ROUTES ---------- */}
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          }
+        />
+        {/* ---------- PROTECTED DASHBOARD ---------- */}
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route index element={<DashboardOverview />} />
+          <Route path="profiles" element={<MyProfiles />} />
+          <Route path="profiles/:id" element={<EditProfile />} />
+          <Route path="analytics" element={<Analytics />} />
+          <Route path="settings" element={<Settings />} />
+        </Route>
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+      {!shouldHideNavbarFooter && <Footer />}
+      <ScrollToTopButton />
+    </>
   );
 };
 
-export const useAuth = () => useContext(AuthContext);
+const App = () => {
+  return (
+    <AuthProvider>
+      <Router>
+        <AppContent />
+      </Router>
+    </AuthProvider>
+  );
+};
+
+export default App;
