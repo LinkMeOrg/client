@@ -108,8 +108,10 @@ const OTPVerify = () => {
       );
 
       if (response.status === 200) {
-        const { token, user } = response.data;
-        login(token, user);
+        const { token, refreshToken, user } = response.data;
+
+        // Updated: Pass both token and refreshToken
+        login(token, refreshToken, user);
 
         Swal.fire({
           icon: "success",
@@ -117,7 +119,7 @@ const OTPVerify = () => {
           text: "Your OTP has been verified successfully.",
           confirmButtonText: "OK",
         }).then(() => {
-          // ✅ NEW: Check if there's a returnTo path
+          // Check if there's a returnTo path
           if (returnTo) {
             navigate(returnTo);
           } else {
@@ -154,6 +156,8 @@ const OTPVerify = () => {
         });
         setCountdown(60);
         setCountdownActive(true);
+        setOtp(["", "", "", "", "", ""]);
+        inputRefs.current[0]?.focus();
       } else {
         setError(response.data.message || "Error resending OTP");
       }

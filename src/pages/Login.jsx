@@ -47,8 +47,17 @@ const Login = () => {
         }
       );
 
-      if (response.data.token && response.data.user) {
-        login(response.data.token, response.data.user);
+      if (
+        response.data.token &&
+        response.data.refreshToken &&
+        response.data.user
+      ) {
+        // Updated: Pass refreshToken to login function
+        login(
+          response.data.token,
+          response.data.refreshToken,
+          response.data.user
+        );
 
         await Swal.fire({
           icon: "success",
@@ -90,7 +99,7 @@ const Login = () => {
         });
 
         setTimeout(() => {
-          // ✅ NEW: Pass returnTo when redirecting to verify-account
+          // Pass returnTo when redirecting to verify-account
           navigate("/verify-account", {
             state: { returnTo: location.state?.returnTo },
           });
