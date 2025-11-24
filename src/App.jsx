@@ -79,7 +79,7 @@ const AppContent = () => {
 
   return (
     <>
-      <ScrollToTop /> {/* <-- Added ScrollToTop */}
+      <ScrollToTop />
       {!shouldHideNavbarFooter && <Navbar />}
       <Routes>
         {/* ---------- GUEST ONLY ---------- */}
@@ -113,7 +113,8 @@ const AppContent = () => {
         <Route path="/not-found" element={<NotFound />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />
-        <Route path="/pricing" element={<Pricing />} />;
+        <Route path="/pricing" element={<Pricing />} />
+        {/* ---------- PROTECTED USER ROUTES ---------- */}
         <Route
           path="/profile"
           element={
@@ -141,6 +142,7 @@ const AppContent = () => {
         <Route path="*" element={<NotFound />} />
       </Routes>
       {!shouldHideNavbarFooter && <Footer />}
+      {/* Scroll to top button is now always visible on all pages including dashboard */}
       <ScrollToTopButton />
     </>
   );
