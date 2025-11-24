@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { useNavigate } from "react-router-dom";
+import { Sparkle, Palette, Box, Moon, Zap, Crown } from "lucide-react";
 
 import CreateCardHero from "../components/CreateCard/CreateCardHero";
 import ProfileTypeSwitch from "../components/CreateCard/ProfileTypeSwitch";
@@ -43,48 +44,48 @@ const INITIAL_SOCIAL_LINKS = {
   phone: "",
 };
 
-const TEMPLATES = [
+export const TEMPLATES = [
   {
     id: "modern",
     name: "Modern",
     preview: "Clean & professional",
     description: "A clean, professional design perfect for business cards",
-    icon: "✨",
+    icon: <Sparkle className="w-5 h-5" />,
   },
   {
     id: "gradient",
     name: "Gradient",
     preview: "Soft gradient flow",
     description: "Smooth gradient background with modern aesthetics",
-    icon: "🌈",
+    icon: <Palette className="w-5 h-5" />,
   },
   {
     id: "glass",
     name: "Glassmorphism",
     preview: "Frosted glass effect",
     description: "Trendy frosted glass effect with transparency",
-    icon: "💎",
+    icon: <Box className="w-5 h-5" />,
   },
   {
     id: "dark",
     name: "Dark Mode",
     preview: "Bold & mysterious",
     description: "Sleek dark theme for a bold statement",
-    icon: "🌙",
+    icon: <Moon className="w-5 h-5" />,
   },
   {
     id: "neon",
     name: "Neon",
     preview: "Vibrant & electric",
     description: "Eye-catching neon glow effects",
-    icon: "⚡",
+    icon: <Zap className="w-5 h-5" />,
   },
   {
     id: "elegant",
     name: "Elegant",
     preview: "Sophisticated luxury",
     description: "Premium design with elegant touches",
-    icon: "👑",
+    icon: <Crown className="w-5 h-5" />,
   },
 ];
 
@@ -347,7 +348,7 @@ export default function CreateCard() {
         title: "Profile Created!",
         html: `${
           profileType === "personal" ? "Personal" : "Business"
-        } profile created successfully! 🎉<br>Your link: <a href="/u/${
+        } profile created successfully! <br>Your link: <a href="/u/${
           data.data.slug
         }" class="text-blue-600 underline">View Profile</a>`,
         confirmButtonColor: "#060640",

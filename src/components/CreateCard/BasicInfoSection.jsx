@@ -1,6 +1,7 @@
 import React from "react";
 import FormField from "./FormField";
 import ImageUpload from "./ImageUpload";
+import { User, Building, Briefcase, Factory, FileText } from "lucide-react";
 
 export default function BasicInfoSection({
   profileType,
@@ -28,15 +29,13 @@ export default function BasicInfoSection({
         type: blob.type || "image/png",
       });
 
-      // Update profile with both the URL (for preview) and File (for upload)
       updateProfile({
         image: imageUrl,
-        imageFile: file, // ✅ Now it will be sent to backend
+        imageFile: file,
         aiGeneratedLogo: true,
       });
     } catch (error) {
       console.error("Error converting AI image to file:", error);
-      // You might want to show an error to the user here
       alert("Failed to process AI-generated logo. Please try again.");
     }
   };
@@ -44,7 +43,13 @@ export default function BasicInfoSection({
   return (
     <div className="space-y-4">
       <FormField
-        icon={isPersonal ? "👤" : "🏢"}
+        icon={
+          isPersonal ? (
+            <User className="w-5 h-5" />
+          ) : (
+            <Building className="w-5 h-5" />
+          )
+        }
         label={isPersonal ? "Full Name" : "Company Name"}
         value={currentProfile.name}
         onChange={(value) => updateProfile({ name: value })}
@@ -52,7 +57,13 @@ export default function BasicInfoSection({
       />
 
       <FormField
-        icon={isPersonal ? "💼" : "🏭"}
+        icon={
+          isPersonal ? (
+            <Briefcase className="w-5 h-5" />
+          ) : (
+            <Factory className="w-5 h-5" />
+          )
+        }
         label={isPersonal ? "Title / Role" : "Industry / Category"}
         value={currentProfile.title}
         onChange={(value) => updateProfile({ title: value })}
@@ -64,7 +75,7 @@ export default function BasicInfoSection({
       />
 
       <FormField
-        icon="📝"
+        icon={<FileText className="w-5 h-5" />}
         label={isPersonal ? "Short Bio" : "Description"}
         value={currentProfile.bio}
         onChange={(value) => updateProfile({ bio: value })}

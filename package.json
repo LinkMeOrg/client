@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "find:comments": "node find-comments.js",
+    "find:emojis": "node find-emojis.js"
   },
   "dependencies": {
     "@react-oauth/google": "^0.12.1",

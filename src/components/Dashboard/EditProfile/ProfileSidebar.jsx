@@ -7,7 +7,11 @@ import {
   Copy,
   Check,
   X,
+  User,
+  Building,
+  Sparkles,
   Link as LinkIcon,
+  Palette,
 } from "lucide-react";
 
 // ==================== UTILITY FUNCTIONS ====================
@@ -162,13 +166,16 @@ function LiveCardPreview({ profile }) {
             Template: <span className="font-bold capitalize">{template}</span>
           </span>
           {profile.designMode === "ai" && profile.aiBackground && (
-            <span className="text-xs px-2 py-0.5 rounded-full bg-gradient-to-r from-purple-100 to-pink-100 text-purple-700 font-semibold">
-              ✨ AI
+            <span className="text-xs px-2 py-0.5 rounded-full bg-gradient-to-r from-purple-100 to-pink-100 text-purple-700 font-semibold flex items-center gap-1">
+              <Zap className="w-3 h-3" />
+              AI
             </span>
           )}
+
           {profile.designMode === "manual" && (
-            <span className="text-xs px-2 py-0.5 rounded-full bg-blue-100 text-blue-700 font-semibold">
-              🎨 Manual
+            <span className="text-xs px-2 py-0.5 rounded-full bg-blue-100 text-blue-700 font-semibold flex items-center gap-1">
+              <Palette className="w-3 h-3" />
+              Manual
             </span>
           )}
         </div>
@@ -243,7 +250,11 @@ function LiveCardPreview({ profile }) {
                   isPersonal ? "rounded-full" : "rounded-lg"
                 } shadow-lg backdrop-blur-sm`}
               >
-                {isPersonal ? "👤" : "🏢"}
+                {isPersonal ? (
+                  <User className="w-5 h-5" />
+                ) : (
+                  <Building className="w-5 h-5" />
+                )}{" "}
               </div>
             )}
 

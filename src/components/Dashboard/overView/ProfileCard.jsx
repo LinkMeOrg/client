@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { QRCodeCanvas } from "qrcode.react";
+import { User, Building } from "lucide-react";
 import { generateProfileUrl, getTemplateStyles } from "./DashboardUtils";
 
 export default function ProfileCard({ profile }) {
@@ -82,7 +83,11 @@ export default function ProfileCard({ profile }) {
                   isPersonal ? "rounded-full" : "rounded-lg"
                 } shadow-lg backdrop-blur-sm`}
               >
-                {isPersonal ? "👤" : "🏢"}
+                {isPersonal ? (
+                  <User className="w-6 h-6" />
+                ) : (
+                  <Building className="w-6 h-6" />
+                )}
               </div>
             )}
 

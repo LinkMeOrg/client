@@ -1,4 +1,5 @@
 import React from "react";
+import { User, Briefcase } from "lucide-react";
 
 export default function ProfileHeader({
   profile,
@@ -62,7 +63,11 @@ export default function ProfileHeader({
                 : "rounded-2xl"
             }`}
           >
-            {profile.profileType === "personal" ? "👤" : "🏢"}
+            {profile.profileType === "personal" ? (
+              <User className="w-5 h-5 text-gray-700" />
+            ) : (
+              <Briefcase className="w-5 h-5 text-gray-700" />
+            )}{" "}
           </div>
         )}
       </div>

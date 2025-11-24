@@ -1,5 +1,12 @@
 import React, { useState } from "react";
 import { generateAIImage } from "./Aiutils";
+import {
+  Sparkles,
+  AlertTriangle,
+  Palette,
+  Lightbulb,
+  Star,
+} from "lucide-react";
 
 export default function AIDesignPanel({
   aiPrompt,
@@ -59,7 +66,7 @@ export default function AIDesignPanel({
     <div className="rounded-xl bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 border-2 border-purple-200/50 p-4 space-y-3 shadow-lg">
       <div className="flex items-center gap-2 mb-2">
         <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shadow-lg">
-          <span className="text-xl">✨</span>
+          <Sparkles className="w-5 h-5 text-white" />
         </div>
         <div>
           <p className="text-sm font-bold text-gray-800 flex items-center gap-1">
@@ -89,7 +96,7 @@ export default function AIDesignPanel({
       {error && (
         <div className="bg-red-50 border border-red-200 rounded-lg p-2 animate-shake">
           <p className="text-xs text-red-600 flex items-center gap-1">
-            <span>⚠️</span> {error}
+            <AlertTriangle className="w-4 h-4" /> {error}
           </p>
         </div>
       )}
@@ -134,14 +141,14 @@ export default function AIDesignPanel({
           </span>
         ) : (
           <span className="flex items-center justify-center gap-2">
-            <span>🎨</span> Generate AI Design
+            <Palette className="w-5 h-5" /> Generate AI Design
           </span>
         )}
       </button>
 
       <div className="space-y-2">
         <p className="text-xs font-medium text-gray-700 flex items-center gap-1">
-          <span>💡</span> Try these prompts:
+          <Lightbulb className="w-4 h-4" /> Try these prompts:
         </p>
         <div className="grid grid-cols-1 gap-2">
           {suggestedPrompts.slice(0, 3).map((prompt, index) => (
@@ -165,7 +172,7 @@ export default function AIDesignPanel({
 
       <div className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-lg p-2.5">
         <p className="text-xs text-green-800 flex items-center gap-1">
-          <span>🌟</span>
+          <Star className="w-4 h-4" />
           <span>
             <span className="font-semibold">Powered by Pollinations.AI</span> -
             Free unlimited AI image generation

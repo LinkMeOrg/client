@@ -1,6 +1,6 @@
 import React from "react";
 import { QRCodeCanvas } from "qrcode.react";
-import { Eye } from "lucide-react";
+import { Eye, User, Building } from "lucide-react";
 
 // ==================== UTILITY FUNCTIONS ====================
 export function generateProfileUrl(slug) {
@@ -222,7 +222,11 @@ export default function ProfileCardPreview({
                   isPersonal ? "rounded-full" : "rounded-lg"
                 } shadow-lg backdrop-blur-sm`}
               >
-                {isPersonal ? "👤" : "🏢"}
+                {isPersonal ? (
+                  <User className="w-5 h-5" />
+                ) : (
+                  <Building className="w-5 h-5" />
+                )}{" "}
               </div>
             )}
 

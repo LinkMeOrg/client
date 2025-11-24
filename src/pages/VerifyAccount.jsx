@@ -7,12 +7,12 @@ import "aos/dist/aos.css";
 
 const VerifyAccount = () => {
   const navigate = useNavigate();
-  const location = useLocation(); // ✅ NEW: Get location state
+  const location = useLocation();
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const API_URL = import.meta.env.VITE_API_URL; // For Vite
 
-  const returnTo = location.state?.returnTo; // ✅ NEW: Get returnTo from state
+  const returnTo = location.state?.returnTo;
 
   useEffect(() => {
     AOS.init({ duration: 900, once: true });
@@ -34,7 +34,6 @@ const VerifyAccount = () => {
         confirmButtonText: "Continue",
       });
 
-      // ✅ NEW: Pass returnTo to OTP verification page
       navigate("/verify-otp", {
         state: {
           email,

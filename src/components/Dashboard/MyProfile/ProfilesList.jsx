@@ -1,7 +1,17 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { QRCodeCanvas } from "qrcode.react";
-import { Edit, Eye, Share2, Link2, QrCode, Pause, Play } from "lucide-react";
+import {
+  Edit,
+  Eye,
+  Share2,
+  Link2,
+  QrCode,
+  Pause,
+  Play,
+  User,
+  Building,
+} from "lucide-react";
 
 export default function ProfilesList({
   profiles,
@@ -49,7 +59,11 @@ export default function ProfilesList({
                         : "rounded-xl"
                     }`}
                   >
-                    {profile.profileType === "personal" ? "👤" : "🏢"}
+                    {profile.profileType === "personal" ? (
+                      <User className="w-8 h-8 text-gray-500" />
+                    ) : (
+                      <Building className="w-8 h-8 text-gray-500" />
+                    )}
                     {profile.isActive && (
                       <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 rounded-full border-2 border-white"></div>
                     )}
@@ -142,26 +156,6 @@ export default function ProfilesList({
               </button>
             </div>
           </div>
-
-          {/* QR Code */}
-          {showQR === profile.id && (
-            <div className="pt-4 border-t border-gray-200 w-full mt-4">
-              <div className="bg-white p-4 rounded-xl flex flex-col items-center gap-3">
-                <QRCodeCanvas
-                  value={`${window.location.origin}/u/${profile.slug}`}
-                  size={200}
-                  level="H"
-                  includeMargin
-                />
-                <button
-                  onClick={() => onCopyLink(profile.slug)}
-                  className="text-sm text-brand-primary hover:underline font-medium"
-                >
-                  Copy Profile Link
-                </button>
-              </div>
-            </div>
-          )}
         </div>
       ))}
     </div>

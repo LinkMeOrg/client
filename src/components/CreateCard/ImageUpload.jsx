@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import AILogoGenerator from "./AILogoGenerator";
+import { Upload, Sparkles } from "lucide-react";
 
 export default function ImageUpload({
   label,
@@ -28,7 +29,9 @@ export default function ImageUpload({
                 : "text-gray-600 hover:text-gray-800"
             }`}
           >
-            📤 Upload Logo
+            <div className="flex items-center gap-1 justify-center">
+              <Upload className="w-4 h-4" /> Upload Logo
+            </div>
           </button>
           <button
             type="button"
@@ -41,7 +44,9 @@ export default function ImageUpload({
                 : "text-gray-600 hover:text-gray-800"
             }`}
           >
-            ✨ AI Generate
+            <div className="flex items-center gap-1 justify-center">
+              <Sparkles className="w-4 h-4" /> AI Generate
+            </div>
           </button>
         </div>
       )}

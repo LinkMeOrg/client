@@ -1,13 +1,14 @@
 import React from "react";
 import ColorPicker from "./ColorPicker";
 import AIDesignPanel from "./AIDesignPanel";
+import { Palette, Sparkles, Check } from "lucide-react";
 
 export default function DesignModeSection({ currentProfile, updateProfile }) {
   return (
     <div className="space-y-4 pt-4">
       <div className="flex items-center justify-between">
         <label className="text-sm font-medium text-gray-700 flex items-center gap-2">
-          <span>🎨</span> Design Mode
+          <Palette className="w-4 h-4" /> Design Mode
         </label>
         <span className="text-xs text-gray-500">Choose how to customize</span>
       </div>
@@ -26,7 +27,7 @@ export default function DesignModeSection({ currentProfile, updateProfile }) {
           `}
         >
           <div className="flex flex-col gap-2">
-            <span className="text-3xl">🎨</span>
+            <Palette className="w-8 h-8" />
             <div>
               <p className="font-semibold text-sm text-brand-dark">Manual</p>
               <p className="text-xs text-gray-600 mt-1">
@@ -36,17 +37,7 @@ export default function DesignModeSection({ currentProfile, updateProfile }) {
           </div>
           {currentProfile.designMode === "manual" && (
             <div className="absolute top-2 right-2 w-6 h-6 bg-brand-primary rounded-full flex items-center justify-center shadow-lg">
-              <svg
-                className="w-4 h-4 text-white"
-                fill="none"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path d="M5 13l4 4L19 7"></path>
-              </svg>
+              <Check className="w-4 h-4 text-white" />
             </div>
           )}
         </button>
@@ -64,7 +55,7 @@ export default function DesignModeSection({ currentProfile, updateProfile }) {
           `}
         >
           <div className="flex flex-col gap-2">
-            <span className="text-3xl">✨</span>
+            <Sparkles className="w-8 h-8" />
             <div>
               <p className="font-semibold text-sm text-brand-dark flex items-center gap-1">
                 AI-Powered
@@ -79,17 +70,7 @@ export default function DesignModeSection({ currentProfile, updateProfile }) {
           </div>
           {currentProfile.designMode === "ai" && (
             <div className="absolute top-2 right-2 w-6 h-6 bg-gradient-to-br from-purple-600 to-pink-600 rounded-full flex items-center justify-center shadow-lg">
-              <svg
-                className="w-4 h-4 text-white"
-                fill="none"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path d="M5 13l4 4L19 7"></path>
-              </svg>
+              <Check className="w-4 h-4 text-white" />
             </div>
           )}
         </button>

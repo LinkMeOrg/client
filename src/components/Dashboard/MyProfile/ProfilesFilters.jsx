@@ -1,5 +1,13 @@
 import React from "react";
-import { LayoutGrid, List } from "lucide-react";
+import {
+  LayoutGrid,
+  List,
+  User,
+  Building,
+  CheckCircle,
+  PauseCircle,
+  BarChart2,
+} from "lucide-react";
 
 export default function ProfilesFilters({
   filter,
@@ -8,11 +16,31 @@ export default function ProfilesFilters({
   setViewMode,
 }) {
   const filters = [
-    { value: "all", label: "All Profiles", icon: "📊" },
-    { value: "personal", label: "Personal", icon: "👤" },
-    { value: "business", label: "Business", icon: "🏢" },
-    { value: "active", label: "Active", icon: "✅" },
-    { value: "inactive", label: "Inactive", icon: "⏸️" },
+    {
+      value: "all",
+      label: "All Profiles",
+      icon: <BarChart2 className="w-4 h-4" />,
+    },
+    {
+      value: "personal",
+      label: "Personal",
+      icon: <User className="w-4 h-4" />,
+    },
+    {
+      value: "business",
+      label: "Business",
+      icon: <Building className="w-4 h-4" />,
+    },
+    {
+      value: "active",
+      label: "Active",
+      icon: <CheckCircle className="w-4 h-4" />,
+    },
+    {
+      value: "inactive",
+      label: "Inactive",
+      icon: <PauseCircle className="w-4 h-4" />,
+    },
   ];
 
   return (
@@ -35,7 +63,7 @@ export default function ProfilesFilters({
                   : "bg-gray-100 text-gray-700 hover:bg-gray-200"
               }`}
             >
-              <span>{item.icon}</span>
+              {item.icon}
               <span>{item.label}</span>
             </button>
           ))}

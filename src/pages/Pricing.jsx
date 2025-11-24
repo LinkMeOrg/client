@@ -1,5 +1,13 @@
 import React, { useState, useRef } from "react";
-import { Check, ShieldCheck, Zap, RefreshCw, X, Sparkles } from "lucide-react";
+import {
+  Check,
+  ShieldCheck,
+  Zap,
+  RefreshCw,
+  X,
+  Sparkles,
+  Minus,
+} from "lucide-react";
 import {
   motion,
   AnimatePresence,
@@ -79,11 +87,31 @@ export default function Pricing() {
 
   const compare = [
     { label: "Smart Cards", p: "1", b: "10", e: "Unlimited" },
-    { label: "Custom Branding", p: "—", b: "✅", e: "✅" },
-    { label: "Team Dashboard", p: "❌", b: "✅", e: "✅" },
+    {
+      label: "Custom Branding",
+      p: <Minus className="w-4 h-4" />,
+      b: <Check className="w-4 h-4" />,
+      e: <Check className="w-4 h-4" />,
+    },
+    {
+      label: "Team Dashboard",
+      p: <X className="w-4 h-4" />,
+      b: <Check className="w-4 h-4" />,
+      e: <Check className="w-4 h-4" />,
+    },
     { label: "Advanced Analytics", p: "Basic", b: "Pro", e: "Pro+" },
-    { label: "API Integrations", p: "❌", b: "❌", e: "✅" },
-    { label: "Dedicated Manager", p: "❌", b: "❌", e: "✅" },
+    {
+      label: "API Integrations",
+      p: <X className="w-4 h-4" />,
+      b: <X className="w-4 h-4" />,
+      e: <Check className="w-4 h-4" />,
+    },
+    {
+      label: "Dedicated Manager",
+      p: <X className="w-4 h-4" />,
+      b: <X className="w-4 h-4" />,
+      e: <Check className="w-4 h-4" />,
+    },
   ];
 
   const faqs = [
@@ -651,7 +679,7 @@ function PlanModal({ plan, onClose, isMonthly, easeApple, reduceMotion }) {
 
         <button
           onClick={() => {
-            alert(`${plan.name} plan confirmed ✅ (Stripe next step)`);
+            alert(`${plan.name} plan confirmed  (Stripe next step)`);
             onClose();
           }}
           className="mt-6 w-full py-3 rounded-2xl font-semibold bg-[#005DFF] text-white hover:opacity-90 shadow-[0_8px_20px_rgba(0,93,255,0.35)]"

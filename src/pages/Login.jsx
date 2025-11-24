@@ -18,7 +18,7 @@ const Login = () => {
   const [rememberMe, setRememberMe] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation(); // ✅ NEW: Get location state
+  const location = useLocation();
   const API_URL = import.meta.env.VITE_API_URL; // For Vite
 
   useEffect(() => {
@@ -40,13 +40,10 @@ const Login = () => {
     setError(null);
 
     try {
-      const response = await axios.post(
-        `${API_URL}/auth/login`,
-        {
-          email: formData.email,
-          password: formData.password,
-        }
-      );
+      const response = await axios.post(`${API_URL}/auth/login`, {
+        email: formData.email,
+        password: formData.password,
+      });
 
       if (
         response.data.token &&
@@ -255,7 +252,7 @@ const Login = () => {
               Don't have an account?{" "}
               <Link
                 to="/signup"
-                state={{ returnTo: location.state?.returnTo }} // ✅ NEW: Pass returnTo to signup
+                state={{ returnTo: location.state?.returnTo }}
                 className="text-brand-primary font-medium hover:underline"
               >
                 Sign Up

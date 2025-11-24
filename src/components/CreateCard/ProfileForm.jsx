@@ -3,6 +3,7 @@ import BasicInfoSection from "./BasicInfoSection";
 import TemplateSelector from "./TemplateSelector";
 import DesignModeSection from "./DesignModeSection";
 import SocialLinksSection from "./SocialLinksSection";
+import { User, Briefcase, Zap, Rocket, Plus } from "lucide-react";
 
 export default function ProfileForm({
   profileType,
@@ -108,13 +109,19 @@ export default function ProfileForm({
     >
       <div className="flex items-center justify-between gap-3 flex-wrap">
         <h2 className="text-xl md:text-2xl font-bold text-brand-dark flex items-center gap-2">
-          <span>{profileType === "personal" ? "👤" : "💼"}</span>
+          <span>
+            {profileType === "personal" ? (
+              <User className="w-5 h-5" />
+            ) : (
+              <Briefcase className="w-5 h-5" />
+            )}
+          </span>
           {profileType === "personal"
             ? "Personal Information"
             : "Business Information"}
         </h2>
-        <span className="text-xs font-medium px-3 py-1.5 rounded-full bg-gradient-to-r from-brand-primary/10 to-purple-500/10 text-brand-primary border border-brand-primary/20">
-          ⚡ Live preview →
+        <span className="text-xs font-medium px-3 py-1.5 rounded-full bg-gradient-to-r from-brand-primary/10 to-purple-500/10 text-brand-primary border border-brand-primary/20 flex items-center gap-1">
+          <Zap className="w-3 h-3" /> Live preview →
         </span>
       </div>
 
@@ -171,19 +178,20 @@ export default function ProfileForm({
               Creating Your Card...
             </span>
           ) : (
-            `🚀 Generate my ${
-              profileType === "personal" ? "Personal" : "Business"
-            } Card`
+            <span className="flex items-center gap-1 justify-center">
+              <Rocket className="w-4 h-4" /> Generate my{" "}
+              {profileType === "personal" ? "Personal" : "Business"} Card
+            </span>
           )}
         </button>
         <button
           type="button"
           onClick={onSwitchProfile}
           disabled={loading}
-          className="btn-ghost-clean w-full py-3 text-base disabled:opacity-50 disabled:cursor-not-allowed"
+          className="btn-ghost-clean w-full py-3 text-base disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1 justify-center"
         >
-          ➕ Also create {profileType === "personal" ? "Business" : "Personal"}{" "}
-          profile
+          <Plus className="w-4 h-4" /> Also create{" "}
+          {profileType === "personal" ? "Business" : "Personal"} profile
         </button>
       </div>
     </form>

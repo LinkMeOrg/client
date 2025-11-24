@@ -1,4 +1,5 @@
 import React from "react";
+import { Palette, Star, Check } from "lucide-react";
 
 export default function ColorPicker({ color, onChange }) {
   const presetColors = [
@@ -43,7 +44,7 @@ export default function ColorPicker({ color, onChange }) {
             className="w-14 h-14 rounded-xl border-2 border-gray-300 cursor-pointer hover:border-brand-primary transition-all hover:scale-105"
           />
           <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-brand-primary rounded-full flex items-center justify-center shadow-lg">
-            <span className="text-xs">🎨</span>
+            <Palette className="w-3 h-3 text-white" />
           </div>
         </div>
         <div>
@@ -56,7 +57,7 @@ export default function ColorPicker({ color, onChange }) {
 
       <div>
         <p className="text-xs font-medium text-gray-600 mb-2 flex items-center gap-1">
-          <span>⭐</span> Quick Color Presets
+          <Star className="w-3 h-3 text-yellow-400" /> Quick Color Presets
         </p>
         <div className="grid grid-cols-4 gap-2">
           {presetColors.map((preset) => (
@@ -78,17 +79,7 @@ export default function ColorPicker({ color, onChange }) {
             >
               {color.toLowerCase() === preset.value.toLowerCase() && (
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <svg
-                    className="w-5 h-5 text-white drop-shadow-lg"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
+                  <Check className="w-5 h-5 text-white drop-shadow-lg" />
                 </div>
               )}
             </button>

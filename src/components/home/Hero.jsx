@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { Zap, BarChart2, Palette } from "lucide-react";
 
 const Hero = () => {
   return (
@@ -17,9 +18,17 @@ const Hero = () => {
           </p>
 
           <ul className="text-gray-300 space-y-2 ml-1 text-sm sm:text-base">
-            <li>⚡ Smart NFC Technology</li>
-            <li>📊 Real-Time Analytics Dashboard</li>
-            <li>🎨 Fully Customizable Digital Profile</li>
+            <li className="flex items-center gap-2">
+              <Zap className="w-4 h-4 text-yellow-400" /> Smart NFC Technology
+            </li>
+            <li className="flex items-center gap-2">
+              <BarChart2 className="w-4 h-4 text-blue-400" /> Real-Time
+              Analytics Dashboard
+            </li>
+            <li className="flex items-center gap-2">
+              <Palette className="w-4 h-4 text-pink-400" /> Fully Customizable
+              Digital Profile
+            </li>
           </ul>
 
           <div className="flex flex-wrap gap-3 sm:gap-4 pt-4">
@@ -36,14 +45,14 @@ const Hero = () => {
         </div>
 
         {/* RIGHT IMAGE */}
-        <div className="flex-1 flex justify-center relative animate-slideInRight first w-full">
+        <div className="flex-1 flex justify-center relative animate-slideInRight w-full">
           <img
             src="/images/hand-nfc.png"
-            alt="Mockup"
+            alt="Smart Card Mockup"
             className="w-[280px] sm:w-[360px] md:w-[420px] lg:w-[460px] relative -bottom-16 sm:-bottom-24 md:-bottom-32 drop-shadow-2xl"
           />
 
-          {/* glow */}
+          {/* Glow */}
           <div className="absolute -z-10 blur-3xl opacity-40 bg-brand-primary w-[200px] sm:w-[250px] md:w-[300px] h-[200px] sm:h-[250px] md:h-[300px] rounded-full bottom-0"></div>
         </div>
       </div>

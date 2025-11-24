@@ -1,5 +1,12 @@
 import React from "react";
-import { Edit3, Upload, Save, Image as ImageIcon } from "lucide-react";
+import {
+  Edit3,
+  User,
+  Building,
+  Upload,
+  Save,
+  Image as ImageIcon,
+} from "lucide-react";
 
 export default function BasicInfoForm({
   profile,
@@ -55,7 +62,11 @@ export default function BasicInfoForm({
                       : "rounded-2xl"
                   }`}
                 >
-                  {profile.profileType === "personal" ? "👤" : "🏢"}
+                  {profile.profileType === "personal" ? (
+                    <User className="w-5 h-5" />
+                  ) : (
+                    <Building className="w-5 h-5" />
+                  )}{" "}
                 </div>
               )}
               <div className="absolute inset-0 bg-black/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">

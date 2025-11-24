@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Image } from "lucide-react";
 
 export default function TemplateSelector({
   templates,
@@ -11,7 +12,7 @@ export default function TemplateSelector({
     <div className="space-y-3 pt-4">
       <div className="flex items-center justify-between">
         <label className="text-sm font-medium text-gray-700 flex items-center gap-2">
-          <span>🎨</span> Card Template
+          <Image className="w-4 h-4" /> Card Template
         </label>
         <span className="text-xs text-gray-500">Choose your card style</span>
       </div>

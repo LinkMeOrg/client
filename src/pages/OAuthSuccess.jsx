@@ -8,10 +8,10 @@ const OAuthSuccess = ({ token, user }) => {
 
   useEffect(() => {
     if (token && user) {
-      login(token, user); // ✅ Safe: Only runs once if token and user are valid
-      navigate("/"); // or whatever route you want
+      login(token, user); 
+      navigate("/"); 
     }
-  }, [token, user]); // ✅ Only trigger once if token/user change from outside
+  }, [token, user]); 
 
   return <p>Logging you in...</p>;
 };

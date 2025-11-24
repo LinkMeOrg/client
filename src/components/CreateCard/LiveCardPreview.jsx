@@ -1,5 +1,13 @@
 // src/components/CreateCard/LiveCardPreview.jsx
 import React, { useEffect } from "react";
+import {
+  User,
+  Building,
+  Zap,
+  Briefcase,
+  Sparkles,
+  Palette,
+} from "lucide-react";
 
 // ==================== UTILITY FUNCTIONS ====================
 function generateProfileUrl(name) {
@@ -224,7 +232,11 @@ function CardPreview({
                 isPersonal ? "rounded-full" : "rounded-lg"
               } shadow-lg backdrop-blur-sm`}
             >
-              {isPersonal ? "👤" : "🏢"}
+              {isPersonal ? (
+                <User className="w-4 h-4" />
+              ) : (
+                <Building className="w-4 h-4" />
+              )}
             </div>
           )}
 
@@ -340,7 +352,7 @@ export default function LiveCardPreview({
   useEffect(() => {
     if (currentProfile?.image) {
     } else {
-      console.log("🖼️ LiveCardPreview - no image yet");
+      console.log(" LiveCardPreview - no image yet");
     }
   }, [currentProfile?.image]);
   const profileUrl = generateProfileUrl(currentProfile.name);
@@ -361,12 +373,16 @@ export default function LiveCardPreview({
         <div className="flex items-center justify-between mb-4">
           <div>
             <p className="text-xs font-semibold text-brand-primary uppercase tracking-wide flex items-center gap-1">
-              <span>⚡</span> Live Preview
+              <Zap className="w-4 h-4" /> Live Preview
             </p>
             <p className="text-sm text-gray-500">Real-time card preview</p>
           </div>
           <span className="px-3 py-1 rounded-full bg-gradient-to-r from-brand-primary/10 to-purple-500/10 text-[11px] font-medium text-brand-primary border border-brand-primary/20">
-            {profileType === "personal" ? "👤 Personal" : "💼 Business"}
+            {profileType === "personal" ? (
+              <User className="w-4 h-4" />
+            ) : (
+              <Briefcase className="w-4 h-4" />
+            )}
           </span>
         </div>
 
@@ -383,12 +399,12 @@ export default function LiveCardPreview({
             {currentProfile.designMode === "ai" &&
               currentProfile.aiBackground && (
                 <span className="text-xs px-2 py-0.5 rounded-full bg-gradient-to-r from-purple-100 to-pink-100 text-purple-700 font-semibold">
-                  ✨ AI
+                  <Sparkles className="w-3 h-3 inline-block mr-1" /> AI
                 </span>
               )}
             {currentProfile.designMode === "manual" && (
               <span className="text-xs px-2 py-0.5 rounded-full bg-blue-100 text-blue-700 font-semibold">
-                🎨 Manual
+                <Palette className="w-3 h-3 inline-block mr-1" /> Manual
               </span>
             )}
           </div>
@@ -406,7 +422,9 @@ export default function LiveCardPreview({
         {currentProfile.designMode === "ai" && currentProfile.aiBackground && (
           <div className="mt-3 p-3 rounded-lg bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200">
             <div className="flex items-center gap-2">
-              <span className="text-lg">✨</span>
+              <span className="text-lg">
+                <Sparkles className="w-5 h-5" />
+              </span>
               <div className="flex-1">
                 <p className="text-xs font-semibold text-purple-900">
                   AI-Generated Background
@@ -423,9 +441,6 @@ export default function LiveCardPreview({
       </div>
 
       <div className="card-glass p-4 text-xs text-gray-600 space-y-2 border-2 border-gray-100">
-        <p className="font-semibold text-brand-dark flex items-center gap-1">
-          <span>💡</span> Pro Tips
-        </p>
         <ul className="space-y-1 pl-1">
           <li className="flex items-start gap-1">
             <span>•</span>

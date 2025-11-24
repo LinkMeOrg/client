@@ -8,13 +8,13 @@ import {
   Phone,
   Mail,
   MapPin,
+  Copyright,
 } from "lucide-react";
 
 export default function Footer() {
   return (
     <footer className="bg-[#0c0f1d] text-[#c9c9d9] py-12 px-6 md:px-20">
       <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
-
         {/* Brand */}
         <div className="space-y-4">
           <h3 className="text-3xl font-extrabold text-white">
@@ -47,11 +47,31 @@ export default function Footer() {
         <div className="">
           <h4 className="text-white font-semibold mb-3">Navigation</h4>
           <ul className="space-y-2 text-sm text-[#a1a3b8]">
-            <li><Link to="/" className="hover:text-brand-primary">Home</Link></li>
-            <li><Link to="/create-card" className="hover:text-brand-primary">Create Card</Link></li>
-            <li><Link to="/how-it-works" className="hover:text-brand-primary">How It Works</Link></li>
-            <li><Link to="/about" className="hover:text-brand-primary">About</Link></li>
-            <li><Link to="/contact" className="hover:text-brand-primary">Contact</Link></li>
+            <li>
+              <Link to="/" className="hover:text-brand-primary">
+                Home
+              </Link>
+            </li>
+            <li>
+              <Link to="/create-card" className="hover:text-brand-primary">
+                Create Card
+              </Link>
+            </li>
+            <li>
+              <Link to="/how-it-works" className="hover:text-brand-primary">
+                How It Works
+              </Link>
+            </li>
+            <li>
+              <Link to="/about" className="hover:text-brand-primary">
+                About
+              </Link>
+            </li>
+            <li>
+              <Link to="/contact" className="hover:text-brand-primary">
+                Contact
+              </Link>
+            </li>
           </ul>
         </div>
 
@@ -63,18 +83,21 @@ export default function Footer() {
               <Phone size={16} className="text-brand-primary" /> +962789924535
             </li>
             <li className="flex items-center gap-2">
-              <Mail size={16} className="text-brand-primary" /> info@dotmediajo.net
+              <Mail size={16} className="text-brand-primary" />{" "}
+              info@dotmediajo.net
             </li>
             <li className="flex items-center gap-2">
-              <MapPin size={16} className="text-brand-primary" /> Jordan-Amman Wasfi Al Tal Street
+              <MapPin size={16} className="text-brand-primary" /> Jordan-Amman
+              Wasfi Al Tal Street
             </li>
           </ul>
         </div>
       </div>
 
       {/* Bottom */}
-      <div className="mt-10 pt-6 border-t border-[#1d2133] text-center text-xs text-[#7e8093]">
-        © {new Date().getFullYear()} LinkMe. All rights reserved.
+      <div className="mt-10 pt-6 border-t border-[#1d2133] text-center text-xs text-[#7e8093] flex items-center justify-center gap-1">
+        <Copyright className="w-3 h-3" /> {new Date().getFullYear()} LinkMe. All
+        rights reserved.
       </div>
     </footer>
   );

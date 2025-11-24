@@ -196,7 +196,6 @@ export default function ProfileSettings() {
               />
             </div>
 
-            {/* ✅ UPDATED: Email Field with Change Button */}
             <div className="space-y-2">
               <label className="block text-sm font-semibold text-gray-700 flex items-center gap-2">
                 <Mail className="w-4 h-4" />
@@ -262,7 +261,6 @@ export default function ProfileSettings() {
         </form>
       </div>
 
-      {/* ✅ Email Change Modal */}
       <ChangeEmailModal
         isOpen={showEmailModal}
         onClose={() => setShowEmailModal(false)}

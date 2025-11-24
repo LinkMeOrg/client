@@ -1,5 +1,27 @@
 import React, { useState, useEffect } from "react";
-import { Download, Search, Mail, Phone, MapPin, Monitor } from "lucide-react";
+import {
+  Download,
+  Search,
+  Mail,
+  Phone,
+  MapPin,
+  Monitor,
+  Eye,
+  MousePointerClick,
+  Smartphone,
+  MailCheck,
+  Smartphone as NfcIcon,
+  QrCode,
+  Link2,
+  Globe,
+  Linkedin,
+  Github,
+  Instagram,
+  Twitter,
+  Link as LinkIcon,
+  BarChart3,
+  MapPinned,
+} from "lucide-react";
 
 export default function Analytics() {
   const [loading, setLoading] = useState(true);
@@ -151,7 +173,7 @@ export default function Analytics() {
   if (profiles.length === 0) {
     return (
       <div className="card-glass p-12 text-center">
-        <div className="text-6xl mb-4">📊</div>
+        <BarChart3 className="w-16 h-16 mx-auto mb-4 text-gray-400" />
         <h3 className="text-xl font-semibold text-brand-dark mb-2">
           No profiles yet
         </h3>
@@ -214,8 +236,8 @@ export default function Analytics() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <div className="card-glass p-6">
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center text-2xl">
-                  👁️
+                <div className="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center">
+                  <Eye className="w-6 h-6 text-blue-600" />
                 </div>
                 <div>
                   <p className="text-sm text-gray-600">Total Views</p>
@@ -228,8 +250,8 @@ export default function Analytics() {
 
             <div className="card-glass p-6">
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-xl bg-green-100 flex items-center justify-center text-2xl">
-                  👆
+                <div className="w-12 h-12 rounded-xl bg-green-100 flex items-center justify-center">
+                  <MousePointerClick className="w-6 h-6 text-green-600" />
                 </div>
                 <div>
                   <p className="text-sm text-gray-600">Link Clicks</p>
@@ -245,8 +267,8 @@ export default function Analytics() {
 
             <div className="card-glass p-6">
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-xl bg-purple-100 flex items-center justify-center text-2xl">
-                  📱
+                <div className="w-12 h-12 rounded-xl bg-purple-100 flex items-center justify-center">
+                  <Smartphone className="w-6 h-6 text-purple-600" />
                 </div>
                 <div>
                   <p className="text-sm text-gray-600">Devices</p>
@@ -259,8 +281,8 @@ export default function Analytics() {
 
             <div className="card-glass p-6">
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-xl bg-orange-100 flex items-center justify-center text-2xl">
-                  📧
+                <div className="w-12 h-12 rounded-xl bg-orange-100 flex items-center justify-center">
+                  <MailCheck className="w-6 h-6 text-orange-600" />
                 </div>
                 <div>
                   <p className="text-sm text-gray-600">Visitor Contacts</p>
@@ -285,15 +307,15 @@ export default function Analytics() {
                       className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
                     >
                       <div className="flex items-center gap-3">
-                        <span className="text-2xl">
-                          {item.viewSource === "nfc"
-                            ? "📲"
-                            : item.viewSource === "qr"
-                            ? "📷"
-                            : item.viewSource === "link"
-                            ? "🔗"
-                            : "🌐"}
-                        </span>
+                        {item.viewSource === "nfc" ? (
+                          <NfcIcon className="w-6 h-6 text-blue-600" />
+                        ) : item.viewSource === "qr" ? (
+                          <QrCode className="w-6 h-6 text-green-600" />
+                        ) : item.viewSource === "link" ? (
+                          <Link2 className="w-6 h-6 text-purple-600" />
+                        ) : (
+                          <Globe className="w-6 h-6 text-gray-600" />
+                        )}
                         <span className="font-medium capitalize">
                           {item.viewSource}
                         </span>
@@ -351,17 +373,17 @@ export default function Analytics() {
                     className="flex items-center justify-between p-4 border border-gray-200 rounded-lg"
                   >
                     <div className="flex items-center gap-3">
-                      <span className="text-2xl">
-                        {link.platform === "linkedin"
-                          ? "💼"
-                          : link.platform === "github"
-                          ? "💻"
-                          : link.platform === "instagram"
-                          ? "📸"
-                          : link.platform === "twitter"
-                          ? "🐦"
-                          : "🔗"}
-                      </span>
+                      {link.platform === "linkedin" ? (
+                        <Linkedin className="w-6 h-6 text-blue-600" />
+                      ) : link.platform === "github" ? (
+                        <Github className="w-6 h-6 text-gray-800" />
+                      ) : link.platform === "instagram" ? (
+                        <Instagram className="w-6 h-6 text-pink-600" />
+                      ) : link.platform === "twitter" ? (
+                        <Twitter className="w-6 h-6 text-blue-400" />
+                      ) : (
+                        <LinkIcon className="w-6 h-6 text-gray-600" />
+                      )}
                       <div>
                         <p className="font-medium capitalize">
                           {link.platform}
@@ -488,14 +510,24 @@ export default function Analytics() {
                             </div>
                           </td>
                           <td className="py-4 px-4">
-                            <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 capitalize">
-                              {visitor.viewSource === "nfc"
-                                ? "📲 NFC"
-                                : visitor.viewSource === "qr"
-                                ? "📷 QR"
-                                : visitor.viewSource === "link"
-                                ? "🔗 Link"
-                                : "🌐 Direct"}
+                            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 capitalize">
+                              {visitor.viewSource === "nfc" ? (
+                                <>
+                                  <NfcIcon className="w-3 h-3" /> NFC
+                                </>
+                              ) : visitor.viewSource === "qr" ? (
+                                <>
+                                  <QrCode className="w-3 h-3" /> QR
+                                </>
+                              ) : visitor.viewSource === "link" ? (
+                                <>
+                                  <Link2 className="w-3 h-3" /> Link
+                                </>
+                              ) : (
+                                <>
+                                  <Globe className="w-3 h-3" /> Direct
+                                </>
+                              )}
                             </span>
                           </td>
                           <td className="py-4 px-4 text-sm text-gray-600">
@@ -521,7 +553,7 @@ export default function Analytics() {
               </>
             ) : (
               <div className="text-center py-12">
-                <div className="text-6xl mb-4">📧</div>
+                <MailCheck className="w-16 h-16 mx-auto mb-4 text-gray-400" />
                 <h3 className="text-lg font-semibold text-gray-700 mb-2">
                   No visitor contacts yet
                 </h3>

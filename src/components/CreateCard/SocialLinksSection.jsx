@@ -535,18 +535,6 @@ export default function SocialLinksSection({
           );
         })}
       </div>
-
-      {/* Helper text at bottom */}
-      <div className="pt-2 px-3 py-2.5 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl border border-blue-100">
-        <p className="text-xs text-gray-600 flex items-start gap-2">
-          <span className="text-blue-500 mt-0.5">💡</span>
-          <span>
-            <strong className="font-semibold text-gray-700">Pro tip:</strong>{" "}
-            You can enter just your username (e.g., "johndoe") or the full URL.
-            We'll automatically format it correctly!
-          </span>
-        </p>
-      </div>
     </div>
   );
 }
